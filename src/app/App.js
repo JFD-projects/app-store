@@ -1,23 +1,18 @@
 import React from 'react';
-import routes from './routes';
-import { Routes, Route } from 'react-router-dom';
-import NavBar from './components/ui/NavBar';
-// import Container from './components/common/container';
-
-const getRoutes = (routes) => {
-  return routes.map((prop, key) => {
-    return <Route path={prop.path} element={prop.component} key={key} />;
-  });
-};
+import { Route, Routes } from 'react-router-dom';
+import Main from './routes/main';
+import routes from './routes/routes';
 
 function App() {
   return (
-    <>
-      <NavBar />
-      {/* <Container> */}
-        <Routes>{getRoutes(routes)}</Routes>
-      {/* </Container> */}
-    </>
+    <Routes>
+      <Route path='/' element={<Main />}>
+        {routes.map((route, key) => (
+          <Route path={route.path} element={route.component} key={key} />
+        ))}
+      </Route>
+      <Route path='*' element={<Main />} />
+    </Routes>
   );
 }
 
