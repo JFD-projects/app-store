@@ -17,7 +17,7 @@ const fetchAll = () =>
   new Promise((resolve) => {
     window.setTimeout(function () {
       resolve(groupsObject);
-    }, 2000);
+    }, 1000);
   });
 
 // eslint-disable-next-line import/no-anonymous-default-export

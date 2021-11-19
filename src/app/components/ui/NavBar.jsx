@@ -33,10 +33,9 @@ const NavBar = () => {
           {routes.map((prop, key) => {
             if (prop.display !== false) {
               return (
-                <li className='nav-item'>
+                <li key={key} className='nav-item'>
                   <NavLink
                     to={'/' + prop.path}
-                    key={key}
                     className={'nav-link fs-5' + ('/' + prop.path === location ? ' active' : '')}>
                     {prop.name}
                   </NavLink>
