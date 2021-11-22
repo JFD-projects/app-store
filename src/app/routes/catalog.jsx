@@ -4,13 +4,21 @@ import ProductsList from '../components/productsList'
 import api from '../api'
 import Pagination from '../components/pagination'
 import { paginate } from '../utils/paginate'
+import SortProducts from '../components/ui/sortProducts'
+import { orderBy } from 'lodash'
 
 const Catalog = () => {
   const [groups, setGroups] = useState()
   const [products, setProducts] = useState([])
   const [selectedGroup, setSelectedGroup] = useState()
   const [currentPage, setCurrentPage] = useState(1)
-  const pageSize = 2
+  const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
+
+  const pageSize = 3
+  const sortList = {
+    price: { path: 'price', name: 'По цене' },
+    name: { path: 'name', name: 'По названию' }
+  }
 
   useEffect(() => {
     api.products.fetchAll().then((data) => setProducts(data))
@@ -20,9 +28,12 @@ const Catalog = () => {
     api.groupsObject.fetchAll().then((data) => setGroups(data))
   }, [])
 
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [selectedGroup])
+
   const handleGroupSelect = (group) => {
     setSelectedGroup(group)
-    setCurrentPage(1)
   }
 
   const handleClearSelect = () => {
@@ -33,7 +44,13 @@ const Catalog = () => {
     ? products.filter((p) => JSON.stringify(p.group) === JSON.stringify(selectedGroup))
     : products
 
-  const productsCrop = paginate(filtredProducts, currentPage, pageSize)
+  const sortedProducts = sortBy.path
+    ? orderBy(filtredProducts, [sortBy.path], [sortBy.order])
+    : filtredProducts
+
+  const handleSort = (item) => setSortBy(item)
+
+  const productsCrop = paginate(sortedProducts, currentPage, pageSize)
 
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex)
@@ -53,6 +70,7 @@ const Catalog = () => {
         />
       </div>
       <div className="col flex-grow-1 ms-3">
+        <SortProducts sortList={sortList} selectedSort={sortBy} onSort={handleSort} />
         <ProductsList items={productsCrop} />
         <Pagination
           currentPage={currentPage}
