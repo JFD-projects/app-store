@@ -1,25 +1,26 @@
-import Auth from './auth';
-import Dashboard from './dashboard';
+import React from 'react'
+import Auth from './auth'
+import Dashboard from './dashboard'
 
 const routes = [
   {
     path: 'auth',
     name: 'Войти',
     display: true,
-    component: <Auth />,
+    component: <Auth />
   },
   {
     path: 'auth',
     name: 'Регистрация',
     display: true,
-    component: <Auth />,
+    component: <Auth />
   },
   {
     path: 'dashboard',
     name: 'Dashboard',
     display: true,
-    component: <Dashboard />,
-  },
-];
+    component: <Dashboard />
+  }
+]
 
-export default routes;
+export default routes
