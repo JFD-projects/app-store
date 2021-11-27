@@ -3,7 +3,7 @@ import Container from '../components/common/container'
 import TextField from '../components/common/textField'
 import { validator } from '../utils/validator'
 
-const Auth = () => {
+const Login = () => {
   const [data, setData] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
 
@@ -36,7 +36,7 @@ const Auth = () => {
       min: {
         message: 'Пароль должен быть не меньше 8 символов!',
         value: 8
-      },
+      }
     }
   }
 
@@ -65,27 +65,32 @@ const Auth = () => {
   return (
     <main>
       <Container>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Email"
-            name="email"
-            value={data.email}
-            error={errors.email}
-            onChange={handleChange}
-          />
-          <TextField
-            label="Password"
-            type="password"
-            name="password"
-            value={data.password}
-            error={errors.password}
-            onChange={handleChange}
-          />
-          <button type="submit" disabled={!isValid}>Submit</button>
-        </form>
+        <div className="row mt-5">
+          <form className="col-md-6 offset-md-3 p-4 shadow" onSubmit={handleSubmit}>
+            <h3 className="mb-4">Войти</h3>
+            <TextField
+              label="Email"
+              name="email"
+              value={data.email}
+              error={errors.email}
+              onChange={handleChange}
+            />
+            <TextField
+              label="Password"
+              type="password"
+              name="password"
+              value={data.password}
+              error={errors.password}
+              onChange={handleChange}
+            />
+            <button className="btn btn-primary w-100 mx-auto" type="submit" disabled={!isValid}>
+              Submit
+            </button>
+          </form>
+        </div>
       </Container>
     </main>
   )
 }
 
-export default Auth
+export default Login

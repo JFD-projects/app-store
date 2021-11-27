@@ -1,24 +1,24 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
-const SearchProduct = (/* { onSearch } */) => {
+const SearchProduct = ({ value, onSearch }) => {
   return (
     <form className="d-flex mb-3">
       <input
         className="form-control"
         type="search"
+        value={value}
         placeholder="Что вы ищете?"
         aria-label="Поиск"
-        // onChange={(e) => {
-        //   onSearch(e.target.value)
-        // }}
+        onChange={onSearch}
       />
     </form>
   )
 }
 
-// SearchProduct.propTypes = {
-//   onSearch: PropTypes.func.isRequired
-// }
+SearchProduct.propTypes = {
+  value: PropTypes.string,
+  onSearch: PropTypes.func.isRequired
+}
 
 export default SearchProduct

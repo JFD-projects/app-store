@@ -12,6 +12,7 @@ import SearchProduct from './ui/searchProduct'
 const Catalog = () => {
   const [groups, setGroups] = useState()
   const [products, setProducts] = useState([])
+  const [searchQuery, setSearchQuery] = useState('')
   const [selectedGroup, setSelectedGroup] = useState()
   const [currentPage, setCurrentPage] = useState(1)
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
@@ -32,9 +33,15 @@ const Catalog = () => {
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [selectedGroup])
+  }, [selectedGroup, searchQuery])
+
+  const handleSearchQuery = ({ target }) => {
+    setSelectedGroup()
+    setSearchQuery(target.value)
+  }
 
   const handleGroupSelect = (group) => {
+    setSearchQuery('')
     setSelectedGroup(group)
   }
 
@@ -42,9 +49,11 @@ const Catalog = () => {
     setSelectedGroup()
   }
 
-  const filtredProducts = selectedGroup
-    ? products.filter((p) => JSON.stringify(p.group) === JSON.stringify(selectedGroup))
-    : products
+  const filtredProducts = searchQuery
+    ? products.filter((u) => u.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    : selectedGroup
+      ? products.filter((p) => JSON.stringify(p.group) === JSON.stringify(selectedGroup))
+      : products
 
   const sortedProducts = sortBy.path
     ? orderBy(filtredProducts, [sortBy.path], [sortBy.order])
@@ -63,7 +72,7 @@ const Catalog = () => {
   return (
     <main>
       <Container>
-        <SearchProduct />
+        <SearchProduct value={searchQuery} onSearch={handleSearchQuery} />
         <div className="row d-flex">
           <div className="col-md-4 col-sm mb-4">
             <GroupsList

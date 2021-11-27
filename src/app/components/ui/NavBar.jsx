@@ -36,7 +36,7 @@ const NavBar = () => {
               <NavLink to={'/dashboard'} className="nav-link fs-5">
                 Dashboard
               </NavLink>
-              <NavLink to={'/auth'} className="nav-link fs-5">
+              <NavLink to={'/login'} className="nav-link fs-5">
                 Login
               </NavLink>
             </ul>

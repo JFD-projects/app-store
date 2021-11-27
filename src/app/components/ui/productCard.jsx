@@ -6,7 +6,7 @@ const ProductCard = ({ _id, image, name, price }) => {
   return (
     <div key={_id} className="card mb-3">
       <div className="row g-0">
-        <div className="col-md-4">
+        <div className="col-md-4 d-flex align-items-center">
           <img src={image} className="img-fluid rounded-start" alt={name} />
         </div>
         <div className="col-md-8">
