@@ -13,7 +13,7 @@ const GroupsList = ({
     const itemsArray = !Array.isArray(items) ? Object.keys(items).map((item) => items[item]) : items
 
     return (
-      <div className="d-flex flex-column" style={{ maxWidth: '280px' }}>
+      <div className="d-flex flex-column" /* style={{ maxWidth: '280px' }} */>
         <ul className="list-group">
           {itemsArray.map((item) => (
             <li
