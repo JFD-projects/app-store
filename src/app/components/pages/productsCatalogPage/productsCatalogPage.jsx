@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import GroupsList from './common/groupsList'
-import ProductsList from './productsList'
-import api from '../api'
-import Pagination from './pagination'
-import { paginate } from '../utils/paginate'
-import SortProducts from './ui/sortProducts'
+import GroupsList from '../../common/groupsList'
+import ProductsList from '../../ui/productsList'
+import api from '../../../api'
+import Pagination from '../../common/pagination'
+import { paginate } from '../../../utils/paginate'
+import SortProducts from '../../ui/sortProducts'
 import { orderBy } from 'lodash'
-import Container from './common/container'
-import SearchProduct from './ui/searchProduct'
+import Container from '../../common/container'
+import SearchProduct from '../../ui/searchProduct'
 
-const Catalog = () => {
+const ProductsCatalogPage = () => {
   const [groups, setGroups] = useState()
   const [products, setProducts] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
@@ -85,7 +85,7 @@ const Catalog = () => {
           </div>
           <div className="col-md-8 col-sm flex-grow-1">
             <SortProducts sortList={sortList} selectedSort={sortBy} onSort={handleSort} />
-            <ProductsList items={productsCrop} />
+            <ProductsList items={productsCrop} searchQuery={searchQuery}/>
             <Pagination
               currentPage={currentPage}
               countItem={count}
@@ -99,4 +99,4 @@ const Catalog = () => {
   )
 }
 
-export default Catalog
+export default ProductsCatalogPage

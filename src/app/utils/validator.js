@@ -5,7 +5,7 @@ export const validator = (data, config) => {
 
     switch (method) {
     case 'isRequired':
-      statusValidate = !data.trim()
+      statusValidate = !data.toString().trim()
       break
     case 'isEmail': {
       const emailRegExp = /^\S+@\S+\.\S+$/g
@@ -24,6 +24,11 @@ export const validator = (data, config) => {
     }
     case 'min': {
       statusValidate = data.length < config.value
+      break
+    }
+    case 'isDigit': {
+      const isDigitalRegExp = /^[0-9]+$/g
+      statusValidate = !isDigitalRegExp.test(+data)
       break
     }
     default:

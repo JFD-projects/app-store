@@ -1,11 +1,11 @@
 import React from 'react'
-import ProductCard from './ui/productCard'
+import ProductCard from './productCard'
 
 import PropTypes from 'prop-types'
 
 const ProductsList = ({ items }) => {
   if (items) {
-    return items.map((item) => <ProductCard key={item._id} {...item} />)
+    return items.map((item) => <ProductCard key={item._id} {...item}/>)
   }
 }
 

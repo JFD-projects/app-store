@@ -30,9 +30,6 @@ const NavBar = () => {
             className={'collapse navbar-collapse justify-content-end ' + (isVisible ? ' show' : '')}
             id="navbarSupportedContent">
             <ul className="navbar-nav">
-              <NavLink to={'/catalog'} className="nav-link fs-5">
-                Каталог
-              </NavLink>
               <NavLink to={'/dashboard'} className="nav-link fs-5">
                 Dashboard
               </NavLink>

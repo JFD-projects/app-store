@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import api from '../api'
+import api from '../../../api'
 import PropTypes from 'prop-types'
-import Container from './common/container'
-import SearchProduct from './ui/searchProduct'
+import Container from '../../common/container'
+// import SearchProduct from '../../ui/searchProduct'
 
-const Product = ({ id }) => {
+const ProductPage = ({ id }) => {
   const [product, setProduct] = useState()
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const Product = ({ id }) => {
   return (
     <main>
       <Container>
-        <SearchProduct/>
+        {/* <SearchProduct/> */}
         <div className="row d-flex mt-5">
           <div className="col-md-5 col-sm mb-4">
             <img src={product.image} className="img-fluid rounded-start" alt={product.name} />
@@ -39,8 +39,8 @@ const Product = ({ id }) => {
   )
 }
 
-Product.propTypes = {
+ProductPage.propTypes = {
   id: PropTypes.string.isRequired
 }
 
-export default Product
+export default ProductPage
