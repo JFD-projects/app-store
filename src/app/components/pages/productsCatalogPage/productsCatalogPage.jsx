@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import GroupsList from '../../common/groupsList'
-import ProductsList from '../../ui/productsList'
-import api from '../../../api'
-import Pagination from '../../common/pagination'
-import { paginate } from '../../../utils/paginate'
-import SortProducts from '../../ui/sortProducts'
 import { orderBy } from 'lodash'
+import React, { useEffect, useState } from 'react'
+import api from '../../../api'
+import { paginate } from '../../../utils/paginate'
 import Container from '../../common/container'
+import GroupsList from '../../common/groupsList'
+import Pagination from '../../common/pagination'
+import ProductsList from '../../ui/productsList'
 import SearchProduct from '../../ui/searchProduct'
+import SortProducts from '../../ui/sortProducts'
 
 const ProductsCatalogPage = () => {
   const [groups, setGroups] = useState()

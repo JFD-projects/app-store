@@ -13,17 +13,19 @@ const CreateForm = () => {
     count: 0,
     image: ''
   })
+  const [dataTypeOfNumber] = useState(() =>
+    Object.keys(data).filter((value) => typeof data[value] === 'number')
+  )
 
   const [groups, setGroups] = useState()
   const [errors, setErrors] = useState({})
-  const [dataTypeOfNumber, setdataTypeOfNumber] = useState([])
 
   useEffect(() => {
     api.groupsObject.fetchAll().then((data) => setGroups(data))
-    setdataTypeOfNumber(Object.keys(data).filter((value) => typeof data[value] === 'number'))
   }, [])
 
   const handleChange = ({ target }) => {
+    console.log(target.value)
     setData((prevState) => ({
       ...prevState,
       [target.name]: target.value
@@ -52,6 +54,19 @@ const CreateForm = () => {
       },
       isDigit: {
         message: 'Допусимо только цифровое значение'
+      }
+    },
+    count: {
+      isRequired: {
+        message: 'Поле обязательно для заполнения!'
+      },
+      isDigit: {
+        message: 'Допусимо только цифровое значение'
+      }
+    },
+    image: {
+      isRequired: {
+        message: 'Поле обязательно для заполнения!'
       }
     }
   }
@@ -89,6 +104,7 @@ const CreateForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <p className="p-2 fw-bold">Добавить / Изменить</p>
       <TextField label="ID" name="id" value={data.id} error={errors.id} onChange={handleChange} />
       <TextField
         label="Название товара"
@@ -120,6 +136,13 @@ const CreateForm = () => {
         type="number"
         value={data.count}
         error={errors.count}
+        onChange={handleChange}
+      />
+      <TextField
+        label="Фото"
+        name="image"
+        value={data.image}
+        error={errors.image}
         onChange={handleChange}
       />
       <button className="btn btn-primary w-100 mx-auto mb-4" type="submit" disabled={!isValid}>
