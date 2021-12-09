@@ -11,8 +11,8 @@ const NavBar = () => {
 
   return (
     <header className="navbar-dark bg-primary mb-4">
-      <Container>
-        <nav className="navbar navbar-expand-sm">
+      <nav className="navbar navbar-expand-sm">
+        <Container>
           <NavLink className="navbar-brand" to="/">
             Главная
           </NavLink>
@@ -38,8 +38,8 @@ const NavBar = () => {
               </NavLink>
             </ul>
           </div>
-        </nav>
-      </Container>
+        </Container>
+      </nav>
     </header>
   )
 }

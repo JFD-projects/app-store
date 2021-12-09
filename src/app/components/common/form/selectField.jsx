@@ -3,6 +3,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const SelectField = ({ label, name, value, defaultOption, options, error, onChange }) => {
+  
+  const handleChange = ({ target }) => {
+    onChange({ name: target.name, value: target.value })
+  }
+
   const optionsArray =
     !Array.isArray(options) && typeof options === 'object'
       ? Object.keys(options).map((optionName) => ({
@@ -17,7 +22,7 @@ const SelectField = ({ label, name, value, defaultOption, options, error, onChan
 
   return (
     <div className="mb-3">
-      <label className="form-label" htmlFor={name}>
+      <label className="form-label" htmlFor="validationCustom04">
         {label}
       </label>
       <select
@@ -25,11 +30,11 @@ const SelectField = ({ label, name, value, defaultOption, options, error, onChan
         id="validationCustom04"
         value={value}
         name={name}
-        onChange={onChange}>
+        onChange={handleChange}>
         <option disabled value="">
           {defaultOption}
         </option>
-        {options && optionsArray.map((option) => <option key={option._id}>{option.name}</option>)}
+        {options && optionsArray.map((option) => <option key={option._id} value={option._id}>{option.name}</option>)}
       </select>
       {error && <div className="invalid-feedback">{error}</div>}
     </div>

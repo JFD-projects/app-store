@@ -112,21 +112,35 @@ const products = [
   }
 ]
 
+if (!localStorage.getItem('products')) {
+  localStorage.setItem('products', JSON.stringify(products))
+}
+
 const fetchAll = () =>
   new Promise((resolve) => {
     window.setTimeout(function () {
-      resolve(products)
+      resolve(JSON.parse(localStorage.getItem('products')))
     }, 1000)
+  })
+
+const update = (id, data) =>
+  new Promise((resolve) => {
+    const products = JSON.parse(localStorage.getItem('products'))
+    const productIndex = products.findIndex((p) => p._id === id)
+    products[productIndex] = { ...products[productIndex], ...data }
+    localStorage.setItem('products', JSON.stringify(products))
+    resolve(products[productIndex])
   })
 
 const getById = (id) =>
   new Promise((resolve) => {
     window.setTimeout(function () {
-      resolve(products.find((user) => user._id === id))
-    }, 1000)
+      resolve(JSON.parse(localStorage.getItem('products')).find((p) => p._id === id))
+    }, 500)
   })
 
 export default {
   fetchAll,
-  getById
+  getById,
+  update
 }

@@ -3,15 +3,62 @@ import React, { useEffect, useState } from 'react'
 import api from '../api'
 import Container from '../components/common/container'
 import CreateForm from '../components/ui/createForm'
-import Table from '../components/ui/table'
+import TableItems from '../components/common/table'
+import EditForm from '../components/ui/editForm'
 
 const Dashboard = () => {
   const [products, setProducts] = useState([])
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
+  const [typeForm, setTypeForm] = useState()
+  const [id, setId] = useState()
+  const [show, setShow] = useState(false)
+
+  const columns = {
+    id: { path: '_id', name: 'ID' },
+    name: { path: 'name', name: 'Наименование' },
+    group: { path: 'group.name', name: 'Категория' },
+    price: { path: 'price', name: 'Стоимость' },
+    count: { path: 'count', name: 'Кол-во' },
+    image: { name: 'Фото' },
+    buttons: {
+      // eslint-disable-next-line react/display-name
+      component: (item) => (
+        <div className="d-flex">
+          <button className="btn btn-primary" onClick={() => handleProductEdit(item._id)}>
+            <i className="bi bi-pencil"></i>
+          </button>
+          <button className="btn btn-danger ms-1" onClick={() => handleDelete(item._id)}>
+            <i className="bi bi-trash"></i>
+          </button>
+        </div>
+      )
+    }
+  }
 
   useEffect(() => {
     api.products.fetchAll().then((data) => setProducts(data))
   }, [])
+
+  const handleChangeData = () => {
+    api.products.fetchAll().then((data) => setProducts(data))
+  }
+
+  const handleShow = () => setShow(true)
+
+  const handleClose = () => {
+    setShow(false)
+    setTypeForm()
+  }
+
+  const handleProductEdit = (id) => {
+    setId(id)
+    setTypeForm('edit')
+    handleShow()
+  }
+  const handleProductCreate = () => {
+    setTypeForm('create')
+    handleShow()
+  }
 
   const handleDelete = (id) => {
     setProducts(products.filter((p) => p._id !== id))
@@ -26,21 +73,33 @@ const Dashboard = () => {
   return (
     <main>
       <Container>
-        <div className="row d-flex">
-          <div className="col-md-3 col-sm mb-4">
-            <CreateForm />
-          </div>
-          <div className="col-md-9 col-sm flex-grow-1">
-            {products && (
-              <Table
-                data={sortedProducts}
-                selectedSort={sortBy}
-                onDelete={handleDelete}
-                onSort={handleSort}
-              />
+        {products && (
+          <>
+            <button className="btn btn-primary d-flex ms-auto" onClick={handleProductCreate}>
+              Добавить
+            </button>
+            <TableItems
+              columns={columns}
+              data={sortedProducts}
+              selectedSort={sortBy}
+              onSort={handleSort}
+            />
+            {typeForm && (
+              <>
+                {typeForm === 'edit' ? (
+                  <EditForm
+                    id={id}
+                    onClose={handleClose}
+                    show={show}
+                    onChangeData={handleChangeData}
+                  />
+                ) : (
+                  <CreateForm onClose={handleClose} show={show} onChangeData={handleChangeData} />
+                )}
+              </>
             )}
-          </div>
-        </div>
+          </>
+        )}
       </Container>
     </main>
   )

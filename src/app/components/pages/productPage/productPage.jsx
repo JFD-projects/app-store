@@ -2,10 +2,21 @@ import React, { useState, useEffect } from 'react'
 import api from '../../../api'
 import PropTypes from 'prop-types'
 import Container from '../../common/container'
+import Counter from '../../common/counter'
+import { Button, Badge } from 'react-bootstrap'
 // import SearchProduct from '../../ui/searchProduct'
 
 const ProductPage = ({ id }) => {
   const [product, setProduct] = useState()
+  const [count, setCount] = useState(0)
+
+  const handleIncrement = () => {
+    setCount((prevState) => prevState + 1)
+  }
+
+  const handleDecrement = () => {
+    setCount((prevState) => prevState - 1)
+  }
 
   useEffect(() => {
     api.products.getById(id).then((data) => {
@@ -23,14 +34,21 @@ const ProductPage = ({ id }) => {
           <div className="col-md-5 col-sm mb-4">
             <img src={product.image} className="img-fluid rounded-start" alt={product.name} />
           </div>
-          <div className="col-md-6 offset-md-1 col-sm flex-grow-1">
-            <h1 className="card-title">{product.name}</h1>
-            <p className="card-price">
-              <b>{new Intl.NumberFormat('ru-RU').format(product.price)} ₽</b>
+          <div
+            className="col-md-6 offset-md-1 col-sm flex-grow-1 position-relative"
+            style={{ minHeight: '300px' }}>
+            <h1 className="card-title mb-4">{product.name}</h1>
+            <p className="card-price mb-4">
+              <b className="fs-1">{new Intl.NumberFormat('ru-RU').format(product.price)} ₽</b>
             </p>
-            <button className="btn btn-primary">Купить</button>
-            <p className="d-flex">
-              <span>id: {id}</span>
+            <div className="d-flex mb-3">
+              <Counter value={count} onIncrement={handleIncrement} onDecrement={handleDecrement} />
+              <Button variant="primary" className="ms-4">Купить</Button>
+            </div>
+            <p className="position-absolute bottom-0 end-0">
+              <Badge bg="light" text="secondary">
+                ID: {id}
+              </Badge>
             </p>
           </div>
         </div>

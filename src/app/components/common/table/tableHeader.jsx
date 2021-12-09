@@ -31,7 +31,6 @@ const TableHeader = ({ columns, selectedSort, onSort }) => {
       <tr>
         {Object.keys(columns).map((column) => (
           <th
-            className="me-2"
             key={column}
             {...{ role: columns[column].path && 'button' }}
             scope="col"

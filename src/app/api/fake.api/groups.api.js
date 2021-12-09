@@ -17,7 +17,7 @@ const fetchAll = () =>
   new Promise((resolve) => {
     window.setTimeout(function () {
       resolve(groupsObject)
-    }, 1000)
+    }, 500)
   })
 
 export default {

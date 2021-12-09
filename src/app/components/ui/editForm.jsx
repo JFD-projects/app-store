@@ -8,7 +8,7 @@ import SelectField from '../common/form/selectField'
 import TextField from '../common/form/textField'
 import Loader from '../common/loader'
 
-const CreateForm = ({ show, onClose, onChangeData }) => {
+const EditForm = ({ id, show, onClose, onChangeData }) => {
   const [data, setData] = useState({
     _id: '',
     name: '',
@@ -20,20 +20,32 @@ const CreateForm = ({ show, onClose, onChangeData }) => {
 
   const [groups, setGroups] = useState([])
   const [errors, setErrors] = useState({})
-
-  const [dataTypeOfNumber] = useState(() =>
-    Object.keys(data).filter((value) => typeof data[value] === 'number')
-  )
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
+    setIsLoading(true)
+    api.products.getById(id).then(({ group, ...data }) =>
+      setData((prevState) => ({
+        ...prevState,
+        ...data,
+        group: group._id
+      }))
+    )
     api.groupsObject.fetchAll().then((data) => setGroups(data))
   }, [])
 
-  const handleChange = ({ target }) => {
+  const handleChange = (target) => {
     setData((prevState) => ({
       ...prevState,
       [target.name]: target.value
     }))
+  }
+
+  const getGroupById = (id) => {
+    for (const group in groups) {
+      const groupData = groups[group]
+      if (groupData._id === id) return groupData
+    }
   }
 
   useEffect(() => {
@@ -42,7 +54,6 @@ const CreateForm = ({ show, onClose, onChangeData }) => {
 
   const validate = () => {
     const errors = validator(data, validatorConfig)
-
     setErrors(errors)
 
     return !Object.keys(errors).length
@@ -50,37 +61,37 @@ const CreateForm = ({ show, onClose, onChangeData }) => {
 
   const isValid = !Object.keys(errors).length
 
-  const formatData = (data, dataTypeOfNumber) => {
-    for (const [key, value] of Object.entries(data)) {
-      if (dataTypeOfNumber.includes(key)) {
-        data[key] = +value
-      }
-    }
-
-    return data
-  }
-
   const handleSubmit = (e) => {
     e.preventDefault()
     const isValid = validate()
     if (!isValid) return
-    console.log(formatData(data, dataTypeOfNumber))
-    onClose()
-    onChangeData()
+    api.products
+      .update(id, {
+        ...data,
+        group: getGroupById(data.group)
+      })
+      .then(() => {
+        onClose()
+        onChangeData()
+      })
   }
 
-  if (!Object.keys(groups).length) return <Loader />
+  useEffect(() => {
+    if (data._id) setIsLoading(false)
+  }, [data])
+
+  if (isLoading && !Object.keys(groups).length) return <Loader />
 
   return (
     <Modal show={show} onHide={onClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Добавить</Modal.Title>
+        <Modal.Title>Изменить</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={handleSubmit}>
           <TextField
             label="ID"
-            name="id"
+            name="_id"
             value={data._id}
             error={errors._id}
             onChange={handleChange}
@@ -131,17 +142,18 @@ const CreateForm = ({ show, onClose, onChangeData }) => {
           Закрыть
         </Button>
         <Button variant="primary" onClick={handleSubmit} disabled={!isValid}>
-          Добавить
+          Изменить
         </Button>
       </Modal.Footer>
     </Modal>
   )
 }
 
-CreateForm.propTypes = {
+EditForm.propTypes = {
+  id: PropTypes.string.isRequired,
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onChangeData: PropTypes.func.isRequired
 }
 
-export default CreateForm
+export default EditForm

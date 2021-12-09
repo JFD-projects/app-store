@@ -16,7 +16,16 @@ const ProductCard = ({ _id, image, name, price }) => {
               <small className="text-muted">{'Артикул ' + _id}</small>
             </p>
             <p className="card-text">{<b>{new Intl.NumberFormat('ru-RU').format(price)} ₽</b>}</p>
-            <Link to={'catalog/'+ _id} id={_id} image={image} name={name} price={price} role="button" className="btn btn-primary">Показать</Link>
+            <Link
+              to={'catalog/' + _id}
+              id={_id}
+              image={image}
+              name={name}
+              price={price}
+              role="button"
+              className="btn btn-primary">
+              Показать
+            </Link>
           </div>
         </div>
       </div>
