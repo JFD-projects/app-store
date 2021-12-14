@@ -11,7 +11,7 @@ const Loader = () => {
         left: 0,
         bottom: 0,
         right: 0,
-        backgroundColor: 'rgba(0,0,0, 0.7)'
+        backgroundColor: 'rgba(0,0,0, 0.3)'
       }}
       className="d-flex justify-content-center align-items-center">
       <div className="spinner-border text-light" role="status">

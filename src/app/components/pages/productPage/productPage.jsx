@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Container from '../../common/container'
 import Counter from '../../common/counter'
 import { Button, Badge } from 'react-bootstrap'
+import Loader from '../../common/loader'
 // import SearchProduct from '../../ui/searchProduct'
 
 const ProductPage = ({ id }) => {
@@ -11,11 +12,11 @@ const ProductPage = ({ id }) => {
   const [count, setCount] = useState(0)
 
   const handleIncrement = () => {
-    setCount((prevState) => prevState + 1)
+    setCount(count + 1)
   }
 
   const handleDecrement = () => {
-    setCount((prevState) => prevState - 1)
+    setCount(count - 1)
   }
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const ProductPage = ({ id }) => {
     })
   }, [])
 
-  if (!product) return 'Loading...'
+  if (!product) return <Loader/>
 
   return (
     <main>
@@ -43,7 +44,7 @@ const ProductPage = ({ id }) => {
             </p>
             <div className="d-flex mb-3">
               <Counter value={count} onIncrement={handleIncrement} onDecrement={handleDecrement} />
-              <Button variant="primary" className="ms-4">Купить</Button>
+              <Button variant="primary" className="ms-4">Добавить в корзину</Button>
             </div>
             <p className="position-absolute bottom-0 end-0">
               <Badge bg="light" text="secondary">

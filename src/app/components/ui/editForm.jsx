@@ -18,7 +18,7 @@ const EditForm = ({ id, show, onClose, onChangeData }) => {
     image: ''
   })
 
-  const [groups, setGroups] = useState([])
+  const [groups, setGroups] = useState({})
   const [errors, setErrors] = useState({})
   const [isLoading, setIsLoading] = useState(false)
 
@@ -33,6 +33,10 @@ const EditForm = ({ id, show, onClose, onChangeData }) => {
     )
     api.groupsObject.fetchAll().then((data) => setGroups(data))
   }, [])
+
+  useEffect(() => {
+    if (!Object.keys(groups).length) setIsLoading(false)
+  }, [groups])
 
   const handleChange = (target) => {
     setData((prevState) => ({
@@ -76,11 +80,7 @@ const EditForm = ({ id, show, onClose, onChangeData }) => {
       })
   }
 
-  useEffect(() => {
-    if (data._id) setIsLoading(false)
-  }, [data])
-
-  if (isLoading && !Object.keys(groups).length) return <Loader />
+  if (isLoading) return <Loader />
 
   return (
     <Modal show={show} onHide={onClose} centered>

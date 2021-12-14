@@ -1,6 +1,8 @@
 import { orderBy } from 'lodash'
 import React, { useEffect, useState } from 'react'
-import api from '../../../api'
+// import api from '../../../api'
+import { useProducts } from '../../../hooks/useProducts'
+import { useGroups } from '../../../hooks/useGroups'
 import { paginate } from '../../../utils/paginate'
 import Container from '../../common/container'
 import GroupsList from '../../common/groupsList'
@@ -10,8 +12,10 @@ import SearchProduct from '../../ui/searchProduct'
 import SortProducts from '../../ui/sortProducts'
 
 const ProductsCatalogPage = () => {
-  const [groups, setGroups] = useState()
-  const [products, setProducts] = useState([])
+  const { products } = useProducts()
+  // const [products, setProducts] = useState([])
+  const { groups } = useGroups()
+  // const [groups, setGroups] = useState()
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedGroup, setSelectedGroup] = useState()
   const [currentPage, setCurrentPage] = useState(1)
@@ -24,11 +28,8 @@ const ProductsCatalogPage = () => {
   }
 
   useEffect(() => {
-    api.products.fetchAll().then((data) => setProducts(data))
-  }, [])
-
-  useEffect(() => {
-    api.groupsObject.fetchAll().then((data) => setGroups(data))
+    // api.products.fetchAll().then((data) => setProducts(data))
+    // api.groupsObject.fetchAll().then((data) => setGroups(data))
   }, [])
 
   useEffect(() => {
@@ -50,9 +51,9 @@ const ProductsCatalogPage = () => {
   }
 
   const filtredProducts = searchQuery
-    ? products.filter((u) => u.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    ? products.filter((p) => p.name.toLowerCase().includes(searchQuery.toLowerCase()))
     : selectedGroup
-      ? products.filter((p) => JSON.stringify(p.group) === JSON.stringify(selectedGroup))
+      ? products.filter((p) => p.group === selectedGroup._id)
       : products
 
   const sortedProducts = sortBy.path
@@ -85,7 +86,7 @@ const ProductsCatalogPage = () => {
           </div>
           <div className="col-md-8 col-sm flex-grow-1">
             <SortProducts sortList={sortList} selectedSort={sortBy} onSort={handleSort} />
-            <ProductsList items={productsCrop} searchQuery={searchQuery}/>
+            <ProductsList items={productsCrop} searchQuery={searchQuery} />
             <Pagination
               currentPage={currentPage}
               countItem={count}

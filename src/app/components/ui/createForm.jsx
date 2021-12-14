@@ -18,22 +18,36 @@ const CreateForm = ({ show, onClose, onChangeData }) => {
     image: ''
   })
 
-  const [groups, setGroups] = useState([])
+  const [groups, setGroups] = useState({})
   const [errors, setErrors] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
 
-  const [dataTypeOfNumber] = useState(() =>
-    Object.keys(data).filter((value) => typeof data[value] === 'number')
-  )
+
+  // const [dataTypeOfNumber] = useState(() =>
+  //   Object.keys(data).filter((value) => typeof data[value] === 'number')
+  // )
 
   useEffect(() => {
+    setIsLoading(true)
     api.groupsObject.fetchAll().then((data) => setGroups(data))
   }, [])
 
-  const handleChange = ({ target }) => {
+  useEffect(() => {
+    if (!Object.keys(groups).length) setIsLoading(false)
+  }, [groups])
+
+  const handleChange = (target) => {
     setData((prevState) => ({
       ...prevState,
       [target.name]: target.value
     }))
+  }
+
+  const getGroupById = (id) => {
+    for (const group in groups) {
+      const groupData = groups[group]
+      if (groupData._id === id) return groupData
+    }
   }
 
   useEffect(() => {
@@ -50,26 +64,27 @@ const CreateForm = ({ show, onClose, onChangeData }) => {
 
   const isValid = !Object.keys(errors).length
 
-  const formatData = (data, dataTypeOfNumber) => {
-    for (const [key, value] of Object.entries(data)) {
-      if (dataTypeOfNumber.includes(key)) {
-        data[key] = +value
-      }
-    }
+  // const formatData = (data, dataTypeOfNumber) => {
+  //   for (const [key, value] of Object.entries(data)) {
+  //     if (dataTypeOfNumber.includes(key)) {
+  //       data[key] = +value
+  //     }
+  //   }
 
-    return data
-  }
+  //   return data
+  // }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const isValid = validate()
     if (!isValid) return
-    console.log(formatData(data, dataTypeOfNumber))
+
+    console.log({ ...data, group: getGroupById(data.group) })
     onClose()
     onChangeData()
   }
 
-  if (!Object.keys(groups).length) return <Loader />
+  if (isLoading) return <Loader />
 
   return (
     <Modal show={show} onHide={onClose} centered>
@@ -80,7 +95,7 @@ const CreateForm = ({ show, onClose, onChangeData }) => {
         <form onSubmit={handleSubmit}>
           <TextField
             label="ID"
-            name="id"
+            name="_id"
             value={data._id}
             error={errors._id}
             onChange={handleChange}

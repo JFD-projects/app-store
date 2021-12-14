@@ -5,6 +5,7 @@ import Container from '../components/common/container'
 import CreateForm from '../components/ui/createForm'
 import TableItems from '../components/common/table'
 import EditForm from '../components/ui/editForm'
+import Group from '../components/ui/group'
 
 const Dashboard = () => {
   const [products, setProducts] = useState([])
@@ -16,7 +17,8 @@ const Dashboard = () => {
   const columns = {
     id: { path: '_id', name: 'ID' },
     name: { path: 'name', name: 'Наименование' },
-    group: { path: 'group.name', name: 'Категория' },
+    // eslint-disable-next-line react/display-name
+    group: { name: 'Категория', component: (product) => <Group id={product.group._id} /> },
     price: { path: 'price', name: 'Стоимость' },
     count: { path: 'count', name: 'Кол-во' },
     image: { name: 'Фото' },
