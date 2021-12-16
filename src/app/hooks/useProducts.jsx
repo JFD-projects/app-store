@@ -37,6 +37,10 @@ const ProductsProvider = ({ children }) => {
     }
   }
 
+  function getProductById(id) {
+    return products.find(p => p._id === id)
+  }
+
   function errorCatcher(error) {
     const { message } = error.response.data
     setError(message)
@@ -44,7 +48,7 @@ const ProductsProvider = ({ children }) => {
   }
 
   return (
-    <ProductsContext.Provider value={{ products }}>
+    <ProductsContext.Provider value={{ products, getProductById }}>
       {!isLoading ? children : <Loader />}
     </ProductsContext.Provider>
   )

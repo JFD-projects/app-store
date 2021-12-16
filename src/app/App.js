@@ -7,23 +7,28 @@ import NavBar from './components/ui/NavBar'
 import Catalog from './layouts/catalog'
 import ProductsProvider from './hooks/useProducts'
 import GroupsProvider from './hooks/useGroups'
+import { ToastContainer } from 'react-bootstrap'
+import AuthProvider from './hooks/useAuth'
 
 function App() {
   return (
     <>
-      <NavBar />
-      <GroupsProvider>
-        <ProductsProvider>
-          <Switch>
-            <Route exact path="/" component={Catalog} />
-            <Route path="/catalog/:productId?" component={Catalog} />
-            <Route path="/login/:type?" component={Login} />
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/main" component={Main} />
-            <Redirect to="/" />
-          </Switch>
-        </ProductsProvider>
-      </GroupsProvider>
+      <AuthProvider>
+        <NavBar />
+        <GroupsProvider>
+          <ProductsProvider>
+            <Switch>
+              <Route exact path="/" component={Catalog} />
+              <Route path="/catalog/:productId?" component={Catalog} />
+              <Route path="/login/:type?" component={Login} />
+              <Route path="/dashboard" component={Dashboard} />
+              <Route path="/main" component={Main} />
+              <Redirect to="/" />
+            </Switch>
+          </ProductsProvider>
+        </GroupsProvider>
+      </AuthProvider>
+      <ToastContainer />
     </>
   )
 }

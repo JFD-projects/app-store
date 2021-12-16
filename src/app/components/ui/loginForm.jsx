@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import TextField from '../common/form/textField'
 import { validator } from '../../utils/validator'
+import { useAuth } from '../../hooks/useAuth'
 
 const LoginForm = () => {
   const [data, setData] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
+  const [enterError, setEnterError] = useState(null)
 
-  const handleChange = ({ target }) => {
+  const { logIn } = useAuth()
+
+  const handleChange = (target) => {
     setData((prevState) => ({
       ...prevState,
       [target.name]: target.value
     }))
+    setEnterError(null)
   }
 
   const validatorConfig = {
@@ -25,16 +30,6 @@ const LoginForm = () => {
     password: {
       isRequired: {
         message: 'Пароль обязателен для заполнения!'
-      },
-      isCapitalSymbol: {
-        message: 'Пароль должен содержать хотя бы одну заглавную букву!'
-      },
-      isDigitalSymbol: {
-        message: 'Пароль должен содержать хотя бы одну цифру!'
-      },
-      min: {
-        message: 'Пароль должен быть не меньше 8 символов!',
-        value: 8
       }
     }
   }
@@ -53,32 +48,41 @@ const LoginForm = () => {
 
   const isValid = !Object.keys(errors).length
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const isValid = validate()
     if (!isValid) return
+    try {
+      await logIn(data)
+    } catch (error) {
+      setEnterError(error.message)
+    }
     console.log(data)
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <TextField
-        label="Email"
+        label="Почта"
         name="email"
         value={data.email}
         error={errors.email}
         onChange={handleChange}
       />
       <TextField
-        label="Password"
+        label="Пароль"
         type="password"
         name="password"
         value={data.password}
         error={errors.password}
         onChange={handleChange}
       />
-      <button className="btn btn-primary w-100 mx-auto mb-4" type="submit" disabled={!isValid}>
-        Submit
+      {enterError && <p className="text-danger">{enterError}</p>}
+      <button
+        className="btn btn-primary w-100 mx-auto mb-4"
+        type="submit"
+        disabled={!isValid || enterError}>
+        Отправить
       </button>
     </form>
   )
