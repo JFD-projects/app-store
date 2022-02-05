@@ -27,12 +27,30 @@ export function getUserId() {
   return localStorage.getItem(USERID_KEY)
 }
 
+export function removeAuthData() {
+  localStorage.removeItem(TOKEN_KEY)
+  localStorage.removeItem(REFRESH_KEY)
+  localStorage.removeItem(EXPIRES_KEY)
+  localStorage.removeItem(USERID_KEY)
+}
+
+export function setData({ _id, basket }) {
+  localStorage.setItem(`basket${_id}`, JSON.stringify(basket))
+}
+
+export function getBasketByUserId(id) {
+  return localStorage.getItem(`basket${id}`)
+}
+
 const localStorageService = {
   setTokens,
   getAccessToken,
   getRefreshToken,
   getTokenExpiresDate,
-  getUserId
+  getUserId,
+  removeAuthData,
+  setData,
+  getBasketByUserId
 }
 
 export default localStorageService

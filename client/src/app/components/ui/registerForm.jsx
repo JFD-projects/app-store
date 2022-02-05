@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import TextField from '../common/form/textField'
 import { validator } from '../../utils/validator'
-import { useAuth } from '../../hooks/useAuth'
-import { useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { signUp } from '../../store/user'
 
 const RegisterForm = () => {
-  const history = useHistory()
+  const dispatch = useDispatch()
   const [data, setData] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
-
-  const { signUp } = useAuth()
 
   const handleChange = (target) => {
     setData((prevState) => ({
@@ -58,19 +56,11 @@ const RegisterForm = () => {
 
   const isValid = !Object.keys(errors).length
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     const isValid = validate()
-    console.log(errors)
     if (!isValid) return
-    console.log(data)
-
-    try {
-      await signUp(data)
-      history.push('/')
-    } catch (error) {
-      setErrors(error)
-    }
+    dispatch(signUp(data))
   }
 
   return (

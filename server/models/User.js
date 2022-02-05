@@ -19,7 +19,7 @@ const schema = new Schema(
     },
     basket: [
       {
-        product: { type: Schema.Types.ObjectId, ref: 'Product' },
+        _id: { type: Schema.Types.ObjectId, ref: 'Product' },
         count: Number
       }
     ]

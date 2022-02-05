@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useGroups } from '../../hooks/useGroups'
+import { useSelector } from 'react-redux'
+import { getGroupsLoadingStatus, getGroupById } from '../../store/groups'
 
 const Group = ({ id }) => {
-  const { isLoading, getGroupById } = useGroups()
-  console.log(id)
-  const group = getGroupById(id)
+  const groupsIsLoading = useSelector(getGroupsLoadingStatus())
+  const group = useSelector(getGroupById(id))
 
-  if (!isLoading) {
+  if (!groupsIsLoading) {
     return <>{group.name}</>
   } else {
     return 'Loading...'

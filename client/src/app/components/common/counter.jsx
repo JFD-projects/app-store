@@ -3,10 +3,10 @@ import { Button, Badge } from 'react-bootstrap'
 
 import PropTypes from 'prop-types'
 
-const Counter = ({ value, onIncrement, onDecrement }) => {
+const Counter = ({ id, value, onIncrement, onDecrement }) => {
   return (
     <div className="d-flex align-items-center">
-      <Button variant="success" onClick={onIncrement}>
+      <Button variant="success" onClick={() => onIncrement(id)}>
         +
       </Button>
       <Badge
@@ -16,7 +16,7 @@ const Counter = ({ value, onIncrement, onDecrement }) => {
         style={{ minWidth: '100px' }}>
         {value <= 0 ? 'Пусто' : value}
       </Badge>
-      <Button variant="danger" onClick={onDecrement} disabled={!value}>
+      <Button variant="danger" onClick={() => onDecrement(id)} disabled={!value}>
         -
       </Button>
     </div>
@@ -24,6 +24,7 @@ const Counter = ({ value, onIncrement, onDecrement }) => {
 }
 
 Counter.propTypes = {
+  id: PropTypes.string,
   value: PropTypes.number.isRequired,
   onIncrement: PropTypes.func.isRequired,
   onDecrement: PropTypes.func.isRequired

@@ -1,7 +1,6 @@
-import React from 'react'
 import { get } from 'lodash'
-
 import PropTypes from 'prop-types'
+import React from 'react'
 
 const TableBody = ({ data, columns }) => {
   const renderContent = (item, column) => {

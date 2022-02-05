@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import TextField from '../common/form/textField'
 import { validator } from '../../utils/validator'
-import { useAuth } from '../../hooks/useAuth'
 import { useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAuthErrors, logIn } from '../../store/user'
 
 const LoginForm = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
   const [data, setData] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
-  const [enterError, setEnterError] = useState(null)
-
-  const { logIn } = useAuth()
+  const loginError = useSelector(getAuthErrors())
 
   const handleChange = (target) => {
     setData((prevState) => ({
       ...prevState,
       [target.name]: target.value
     }))
-    setEnterError(null)
   }
 
   const validatorConfig = {
@@ -42,7 +41,6 @@ const LoginForm = () => {
 
   const validate = () => {
     const errors = validator(data, validatorConfig)
-
     setErrors(errors)
 
     return !Object.keys(errors).length
@@ -50,17 +48,13 @@ const LoginForm = () => {
 
   const isValid = !Object.keys(errors).length
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     const isValid = validate()
     if (!isValid) return
-    try {
-      await logIn(data)
-      history.push('/catalog')
-    } catch (error) {
-      setEnterError(error.message)
-    }
-    console.log(data)
+    const redirect = history.location.state ? history.location.state.from.pathname : '/'
+
+    dispatch(logIn({ payload: data, redirect }))
   }
 
   return (
@@ -80,11 +74,11 @@ const LoginForm = () => {
         error={errors.password}
         onChange={handleChange}
       />
-      {enterError && <p className="text-danger">{enterError}</p>}
+      {loginError && <p className="text-danger">{loginError}</p>}
       <button
         className="btn btn-primary w-100 mx-auto mb-4"
         type="submit"
-        disabled={!isValid || enterError}>
+        disabled={!isValid}>
         Отправить
       </button>
     </form>

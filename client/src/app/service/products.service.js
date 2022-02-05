@@ -8,7 +8,6 @@ const productsService = {
     return data
   },
   update: async (payload) => {
-    console.log(payload)
     const { data } = await httpService.patch(
       productsEndPoint + payload._id,
       payload

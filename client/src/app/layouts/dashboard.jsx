@@ -1,20 +1,21 @@
 import { orderBy } from 'lodash'
 import React, { useState } from 'react'
-// import api from '../api'
 import Container from '../components/common/container'
 import CreateForm from '../components/ui/createForm'
 import TableItems from '../components/common/table'
 import EditForm from '../components/ui/editForm'
 import Group from '../components/ui/group'
 import Thumbnail from '../components/ui/thumbnail'
-import { useProducts } from '../hooks/useProducts'
 import Loader from '../components/common/loader'
-import { useGroups } from '../hooks/useGroups'
+import { useDispatch, useSelector } from 'react-redux'
+import { getGroupsLoadingStatus } from '../store/groups'
+import { deleteProduct, getProductsList, getProductsLoadingStatus } from '../store/products'
 
 const Dashboard = () => {
-  // const [products, setProducts] = useState([])
-  const { products, deleteProduct, isLoading: isLoadingProducts } = useProducts()
-  const { isLoading: isLoadingGroups } = useGroups()
+  const dispatch = useDispatch()
+  const isLoadingProducts = useSelector(getProductsLoadingStatus())
+  const products = useSelector(getProductsList())
+  const isLoadingGroups =  useSelector(getGroupsLoadingStatus())
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
   const [typeForm, setTypeForm] = useState()
   const [id, setId] = useState()
@@ -48,14 +49,6 @@ const Dashboard = () => {
     }
   }
 
-  // useEffect(() => {
-  //   api.products.fetchAll().then((data) => setProducts(data))
-  // }, [])
-
-  // const handleChangeData = () => {
-  //   api.products.fetchAll().then((data) => setProducts(data))
-  // }
-
   const handleShow = () => setShow(true)
 
   const handleClose = () => {
@@ -74,8 +67,7 @@ const Dashboard = () => {
   }
 
   const handleDelete = (id) => {
-    // setProducts(products.filter((p) => p._id !== id))
-    deleteProduct(id)
+    dispatch(deleteProduct(id))
   }
 
   const handleSort = (item) => {
@@ -106,12 +98,11 @@ const Dashboard = () => {
                   id={id}
                   onClose={handleClose}
                   show={show}
-                  // onChangeData={handleChangeData}
                 />
               ) : (
                 <CreateForm
                   onClose={handleClose}
-                  show={show} /* onChangeData={handleChangeData} */
+                  show={show}
                 />
               )}
             </>

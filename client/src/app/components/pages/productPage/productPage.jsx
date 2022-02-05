@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import api from '../../../api'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Container from '../../common/container'
 import Counter from '../../common/counter'
 import { Button, Badge } from 'react-bootstrap'
-import Loader from '../../common/loader'
-// import SearchProduct from '../../ui/searchProduct'
+import { useSelector } from 'react-redux'
+import { getProductById } from '../../../store/products'
 
 const ProductPage = ({ id }) => {
-  const [product, setProduct] = useState()
+  const product = useSelector(getProductById(id))
   const [count, setCount] = useState(0)
 
   const handleIncrement = () => {
@@ -18,14 +17,6 @@ const ProductPage = ({ id }) => {
   const handleDecrement = () => {
     setCount(count - 1)
   }
-
-  useEffect(() => {
-    api.products.getById(id).then((data) => {
-      setProduct(data)
-    })
-  }, [])
-
-  if (!product) return <Loader/>
 
   return (
     <main>
@@ -44,7 +35,9 @@ const ProductPage = ({ id }) => {
             </p>
             <div className="d-flex mb-3">
               <Counter value={count} onIncrement={handleIncrement} onDecrement={handleDecrement} />
-              <Button variant="primary" className="ms-4">Добавить в корзину</Button>
+              <Button variant="primary" className="ms-4">
+                Добавить в корзину
+              </Button>
             </div>
             <p className="position-absolute bottom-0 end-0">
               <Badge bg="light" text="secondary">

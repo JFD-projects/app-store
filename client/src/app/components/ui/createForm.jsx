@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
-import api from '../../api'
 import { validatorConfig } from '../../config.validator'
-import { useProducts } from '../../hooks/useProducts'
 import { validator } from '../../utils/validator'
 import SelectField from '../common/form/selectField'
 import TextField from '../common/form/textField'
-import Loader from '../common/loader'
+import { useDispatch, useSelector } from 'react-redux'
+import { getGroupsList } from '../../store/groups'
+import { createProduct } from '../../store/products'
 
-const CreateForm = ({ show, onClose/* , onChangeData */ }) => {
+const CreateForm = ({ show, onClose }) => {
+  const dispatch = useDispatch()
   const [data, setData] = useState({
     _id: '',
     name: '',
@@ -19,37 +20,14 @@ const CreateForm = ({ show, onClose/* , onChangeData */ }) => {
     image: ''
   })
 
-  const { createProduct } = useProducts()
-  const [groups, setGroups] = useState({})
+  const groups = useSelector(getGroupsList())
   const [errors, setErrors] = useState({})
-  const [isLoading, setIsLoading] = useState(false)
-
-
-  // const [dataTypeOfNumber] = useState(() =>
-  //   Object.keys(data).filter((value) => typeof data[value] === 'number')
-  // )
-
-  useEffect(() => {
-    setIsLoading(true)
-    api.groupsObject.fetchAll().then((data) => setGroups(data))
-  }, [])
-
-  useEffect(() => {
-    if (!Object.keys(groups).length) setIsLoading(false)
-  }, [groups])
 
   const handleChange = (target) => {
     setData((prevState) => ({
       ...prevState,
       [target.name]: target.value
     }))
-  }
-
-  const getGroupById = (id) => {
-    for (const group in groups) {
-      const groupData = groups[group]
-      if (groupData._id === id) return groupData
-    }
   }
 
   useEffect(() => {
@@ -66,28 +44,13 @@ const CreateForm = ({ show, onClose/* , onChangeData */ }) => {
 
   const isValid = !Object.keys(errors).length
 
-  // const formatData = (data, dataTypeOfNumber) => {
-  //   for (const [key, value] of Object.entries(data)) {
-  //     if (dataTypeOfNumber.includes(key)) {
-  //       data[key] = +value
-  //     }
-  //   }
-
-  //   return data
-  // }
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     const isValid = validate()
     if (!isValid) return
-
-    console.log({ ...data, group: getGroupById(data.group) })
-    await createProduct(data)
+    dispatch(createProduct(data))
     onClose()
-    // onChangeData()
   }
-
-  if (isLoading) return <Loader />
 
   return (
     <Modal show={show} onHide={onClose} centered>
@@ -96,13 +59,6 @@ const CreateForm = ({ show, onClose/* , onChangeData */ }) => {
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={handleSubmit}>
-          {/* <TextField
-            label="ID"
-            name="_id"
-            value={data._id}
-            error={errors._id}
-            onChange={handleChange}
-          /> */}
           <TextField
             label="Название товара"
             name="name"
@@ -158,8 +114,7 @@ const CreateForm = ({ show, onClose/* , onChangeData */ }) => {
 
 CreateForm.propTypes = {
   show: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  // onChangeData: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired
 }
 
 export default CreateForm

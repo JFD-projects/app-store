@@ -1,7 +1,5 @@
 import { orderBy } from 'lodash'
 import React, { useEffect, useState } from 'react'
-import { useProducts } from '../../../hooks/useProducts'
-import { useGroups } from '../../../hooks/useGroups'
 import { paginate } from '../../../utils/paginate'
 import Container from '../../common/container'
 import GroupsList from '../../common/groupsList'
@@ -9,10 +7,13 @@ import Pagination from '../../common/pagination'
 import ProductsList from '../../ui/productsList'
 import SearchProduct from '../../ui/searchProduct'
 import SortProducts from '../../ui/sortProducts'
+import { useSelector } from 'react-redux'
+import { getProductsList } from '../../../store/products'
+import { getGroupsList } from '../../../store/groups'
 
 const ProductsCatalogPage = () => {
-  const { products } = useProducts()
-  const { groups } = useGroups()
+  const products = useSelector(getProductsList())
+  const groups = useSelector(getGroupsList())
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedGroup, setSelectedGroup] = useState()
   const [currentPage, setCurrentPage] = useState(1)
@@ -59,7 +60,7 @@ const ProductsCatalogPage = () => {
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex)
   }
-
+  
   const count = filtredProducts.length
 
   return (

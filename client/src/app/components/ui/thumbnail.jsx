@@ -1,16 +1,18 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useProducts } from '../../hooks/useProducts'
+import { useSelector } from 'react-redux'
+import { getProductById } from '../../store/products'
 
-const Thumbnail = ({ id }) => {
-  const { getProductById } = useProducts()
-  const product = getProductById(id)
+const Thumbnail = ({ id, size = 50 }) => {
+  const product = useSelector(getProductById(id))
 
   if (product) {
     return (
-      <div>
-        <img style={{ width: '50px', height: '50px', objectFit: 'contain' }} src={product.image} alt={product.name} />
-      </div>
+      <img
+        style={{ width: `${size}px`, height: `${size}px`, objectFit: 'contain' }}
+        src={product.image}
+        alt={product.name}
+      />
     )
   } else {
     return 'Loading...'
@@ -18,7 +20,8 @@ const Thumbnail = ({ id }) => {
 }
 
 Thumbnail.propTypes = {
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  size: PropTypes.number
 }
 
 export default Thumbnail
