@@ -60,7 +60,7 @@ const ProductsCatalogPage = () => {
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex)
   }
-  
+
   const count = filtredProducts.length
 
   return (
