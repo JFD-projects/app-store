@@ -2,12 +2,11 @@
   {
     "_id": "o7GNNvdyQsY5Hj5qtrLtjUIg2ru2",
     "email": "m@m.ru",
-    "isAdmin": false,
-    "isSuperAdmin": false,
+    "isAdmin": true,
     "basket": [
-      { "product": "61f531b493819c8574ba296a", "count": 1 },
-      { "product": "61f531b493819c8574ba296c", "count": 1 },
-      { "product": "61f531b493819c8574ba296b", "count": 2 }
+      { "_id": "61f531b493819c8574ba296a", "count": 1 },
+      { "_id": "61f531b493819c8574ba296c", "count": 1 },
+      { "_id": "61f531b493819c8574ba296b", "count": 2 }
     ]
   }
 ]

@@ -53,8 +53,10 @@ const LoginForm = () => {
     const isValid = validate()
     if (!isValid) return
     const redirect = history.location.state ? history.location.state.from.pathname : '/'
-
+    
+    console.log('🚀 ~ handleSubmit ~ data', data)
     dispatch(logIn({ payload: data, redirect }))
+
   }
 
   return (

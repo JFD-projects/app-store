@@ -41,6 +41,7 @@ router.post('/signUp', [
 
       const hashedPassword = await bcrypt.hash(password, 12)
       const newUser = await User.create({
+        isAdmin: false,
         ...req.body,
         password: hashedPassword
       })
@@ -59,7 +60,7 @@ router.post('/signUp', [
 
 router.post('/signInWithPassword', [
   check('email', 'Адрес почты введен некорректно').normalizeEmail().isEmail(),
-  check('passwors', 'Пароль не может быть пустым').exists(),
+  check('password', 'Пароль не может быть пустым').exists(),
   async (req, res) => {
     try {
       const errors = validationResult(req)

@@ -4,18 +4,14 @@ import config from '../config.json'
 
 export const httpAuth = axios.create({
   baseURL: config.apiEndPoint + 'auth/',
-  params: {
-    key: process.env.REACT_APP_FIREBASE_KEY
-  }
+  // params: {
+  //   key: process.env.REACT_APP_FIREBASE_KEY
+  // }
 })
 
 const authService = {
-  register: async ({ email, password }) => {
-    const { data } = await httpAuth.post('signUp', {
-      email,
-      password,
-      returnSecureToken: true
-    })
+  register: async (payload) => {
+    const { data } = await httpAuth.post('signUp', payload)
 
     return data
   },

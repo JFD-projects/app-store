@@ -46,16 +46,10 @@ const NavBar = () => {
             id="navbarSupportedContent">
             <ul className="navbar-nav">
               {isAdmin && (
-                <>
-                  <NavLink to={'/main'} className="nav-link fs-5">
-                    <i className="bi bi-download me-2"></i>
-                    Download
-                  </NavLink>
-                  <NavLink to={'/dashboard'} className="nav-link fs-5">
-                    <i className="bi bi-pencil-square me-2"></i>
-                    Кабинет
-                  </NavLink>
-                </>
+                <NavLink to={'/dashboard'} className="nav-link fs-5">
+                  <i className="bi bi-pencil-square me-2"></i>
+                  Кабинет
+                </NavLink>
               )}
               <NavLink to={'/basket'} className="nav-link fs-5 me-2">
                 <i className="bi bi-cart"></i>

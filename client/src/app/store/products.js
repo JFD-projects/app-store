@@ -1,5 +1,4 @@
 import { createAction, createSlice } from '@reduxjs/toolkit'
-import { nanoid } from 'nanoid'
 import productsService from '../service/products.service'
 
 const productsSlice = createSlice({
@@ -65,7 +64,7 @@ export const createProduct = (data) => async (dispatch) => {
   dispatch(addProductRequested())
 
   try {
-    const { content } = await productsService.create({ ...data, _id: nanoid() })
+    const { content } = await productsService.create(data)
     dispatch(productCreated(content))
   } catch (error) {
     dispatch(productsRequestFailed(error.message))
@@ -89,7 +88,7 @@ export const deleteProduct = (id) => async (dispatch) => {
   try {
     const { content } = await productsService.delete(id)
 
-    if (content === null) {
+    if (!content) {
       dispatch(productRemoved(id))
     }
   } catch (error) {

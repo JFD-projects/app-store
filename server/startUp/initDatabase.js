@@ -1,9 +1,10 @@
 const Product = require('../models/Product')
-const Group = require('../models/Group')
+// const Group = require('../models/Group')
+// const User = require('../models/User')
 
 const productsMock = require('../mock/products.json')
-const groupsMock = require('../mock/groups.json')
-const usersMock = require('../mock/users.json')
+// const groupsMock = require('../mock/groups.json')
+// const usersMock = require('../mock/users.json')
 
 module.exports = async () => {
   const products = await Product.find()
@@ -11,10 +12,15 @@ module.exports = async () => {
     await createInitialEntity(Product, productsMock)
   }
 
-  const groups = await Group.find()
-  if (groups.length !== groupsMock.length) {
-    await createInitialEntity(Group, groupsMock)
-  }
+  // const groups = await Group.find()
+  // if (groups.length !== groupsMock.length) {
+  //   await createInitialEntity(Group, groupsMock)
+  // }
+
+  // const users = await User.find()
+  // if (users.length !== usersMock.length) {
+  //   await createInitialEntity(User, usersMock)
+  // }
 }
 
 async function createInitialEntity(Model, data) {

@@ -1,21 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Container from '../../common/container'
-import Counter from '../../common/counter'
 import { Button, Badge } from 'react-bootstrap'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getProductById } from '../../../store/products'
+import { getUser , updateUser } from '../../../store/user'
 
 const ProductPage = ({ id }) => {
+  const dispatch = useDispatch()
   const product = useSelector(getProductById(id))
-  const [count, setCount] = useState(0)
+  const user = useSelector(getUser())
+  const [countProduct, setCountProduct] = useState(0)
 
-  const handleIncrement = () => {
-    setCount(count + 1)
-  }
+  useEffect(() => {
+    if (user && user?.basket && user.basket.length > 0) {
+      const countProductInBasket = user.basket.find((b) => b._id === id)?.count
+      if (countProductInBasket) {
+        setCountProduct(countProductInBasket)
+      }
+    }
+  }, [user])
 
-  const handleDecrement = () => {
-    setCount(count - 1)
+  const handleBasket = () => {
+    const newBasket = [...user.basket]
+    const index = user.basket.findIndex((b) => b._id === product._id)
+    index !== -1
+      ? (newBasket[index] = { ...newBasket[index], count: countProduct + 1 })
+      : newBasket.push({ _id: product._id, count: countProduct + 1 })
+
+    const userWithChangedBasket = { ...user, basket: newBasket }
+    console.log(userWithChangedBasket)
+    dispatch(updateUser(userWithChangedBasket))
   }
 
   return (
@@ -34,8 +49,7 @@ const ProductPage = ({ id }) => {
               <b className="fs-1">{new Intl.NumberFormat('ru-RU').format(product.price)} ₽</b>
             </p>
             <div className="d-flex mb-3">
-              <Counter value={count} onIncrement={handleIncrement} onDecrement={handleDecrement} />
-              <Button variant="primary" className="ms-4">
+              <Button variant="primary" className="me-4" onClick={handleBasket}>
                 Добавить в корзину
               </Button>
             </div>

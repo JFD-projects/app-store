@@ -5,9 +5,14 @@ import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { getProductById } from '../../store/products'
 
-const BasketCard = ({ productId, count, ...rest }) => {
+const BasketCard = ({ productId, count, onDelete, ...rest }) => {
   const product = useSelector(getProductById(productId))
   const { name, image, price } = product
+
+  const handleDelete = () => {
+    onDelete(productId)
+  }
+  
 
   return (
     <div className="card mb-3">
@@ -31,7 +36,7 @@ const BasketCard = ({ productId, count, ...rest }) => {
           </div>
         </div>
       </div>
-      <button className="position-absolute top-0 end-0 btn">
+      <button className="position-absolute top-0 end-0 btn" onClick={handleDelete}>
         <i className="bi bi-x-lg"></i>
       </button>
     </div>
@@ -40,7 +45,8 @@ const BasketCard = ({ productId, count, ...rest }) => {
 
 BasketCard.propTypes = {
   productId: PropTypes.string.isRequired,
-  count: PropTypes.number.isRequired
+  count: PropTypes.number.isRequired,
+  onDelete: PropTypes.func
 }
 
 export default BasketCard

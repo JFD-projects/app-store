@@ -9,7 +9,6 @@ import Catalog from './layouts/catalog'
 import Dashboard from './layouts/dashboard'
 import Login from './layouts/login'
 import LogOut from './layouts/logOut'
-import Main from './layouts/main'
 
 function App() {
   return (
@@ -24,7 +23,6 @@ function App() {
           <Route path="/logout" component={LogOut} />
           <ProtectedRoute>
             <Route path="/dashboard" component={Dashboard} />
-            <Route path="/main" component={Main} />
           </ProtectedRoute>
           <Redirect to="/" />
         </Switch>

@@ -36,6 +36,7 @@ http.interceptors.request.use(
     } else {
       if (isExpired) {
         const data = await httpAuth.refresh()
+        console.log(data)
 
         localStorageService.setTokens(data)
       }
@@ -43,8 +44,8 @@ http.interceptors.request.use(
       const accessToken = localStorageService.getAccessToken()
 
       if (accessToken) {
-        config.params = {
-          ...config.params,
+        config.headers = {
+          ...config.headers,
           Authorization: `Bearer ${accessToken}`
         }
       }
@@ -66,6 +67,7 @@ http.interceptors.response.use(
       res.data = { content: transformData(res.data) }
     }
 
+    res.data = { content: res.data }
     return res
   },
   function (error) {

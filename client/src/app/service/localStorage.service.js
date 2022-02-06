@@ -34,23 +34,13 @@ export function removeAuthData() {
   localStorage.removeItem(USERID_KEY)
 }
 
-export function setData({ _id, basket }) {
-  localStorage.setItem(`basket${_id}`, JSON.stringify(basket))
-}
-
-export function getBasketByUserId(id) {
-  return localStorage.getItem(`basket${id}`)
-}
-
 const localStorageService = {
   setTokens,
   getAccessToken,
   getRefreshToken,
   getTokenExpiresDate,
   getUserId,
-  removeAuthData,
-  setData,
-  getBasketByUserId
+  removeAuthData
 }
 
 export default localStorageService

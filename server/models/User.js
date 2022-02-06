@@ -14,9 +14,6 @@ const schema = new Schema(
     isAdmin: {
       type: Boolean
     },
-    isSuperAdmin: {
-      type: Boolean
-    },
     basket: [
       {
         _id: { type: Schema.Types.ObjectId, ref: 'Product' },

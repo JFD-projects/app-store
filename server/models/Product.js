@@ -7,10 +7,7 @@ const schema = new Schema(
       type: String,
       required: true
     },
-    group: {
-      type: String,
-      required: true
-    },
+    group: { type: Schema.Types.ObjectId, ref: 'Group' },
     price: Number,
     image: {
       type: String,
