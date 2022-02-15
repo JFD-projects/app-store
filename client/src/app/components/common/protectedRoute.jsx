@@ -13,12 +13,16 @@ const ProtectedRoute = ({ component: Component, children, ...rest }) => {
       {...rest}
       render={(props) => {
         if (!isLoggedIn) {
-          return <Redirect to={{
-                                pathname: "/login",
-                                state: {
-                                    from: props.location
-                                }
-                            }} />
+          return (
+            <Redirect
+              to={{
+                pathname: '/login',
+                state: {
+                  from: props.location
+                }
+              }}
+            />
+          )
         }
         if (!isAdmin) {
           return <Redirect to="/" />
@@ -31,6 +35,7 @@ const ProtectedRoute = ({ component: Component, children, ...rest }) => {
 }
 
 ProtectedRoute.propTypes = {
+  location: PropTypes.object,
   component: PropTypes.func,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
 }
