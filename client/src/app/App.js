@@ -20,8 +20,8 @@ function App() {
           <Route path="/product/:productId?" component={Catalog} />
           <Route path="/login/:type?" component={Login} />
           <Route path="/logout" component={LogOut} />
+          <Route path="/basket" component={Bascket} />
           <ProtectedRoute>
-            <Route path="/basket" component={Bascket} />
             <Route path="/dashboard" component={Dashboard} />
           </ProtectedRoute>
           <Redirect to="/" />
