@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import TextField from '../common/form/textField'
 import { validator } from '../../utils/validator'
-import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAuthErrors, logIn } from '../../store/user'
+import history from '../../utils/history'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
-  const history = useHistory()
   const [data, setData] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
   const loginError = useSelector(getAuthErrors())
@@ -53,10 +52,8 @@ const LoginForm = () => {
     const isValid = validate()
     if (!isValid) return
     const redirect = history.location.state ? history.location.state.from.pathname : '/'
-    
-    console.log('🚀 ~ handleSubmit ~ data', data)
-    dispatch(logIn({ payload: data, redirect }))
 
+    dispatch(logIn({ payload: data, redirect }))
   }
 
   return (
@@ -77,10 +74,7 @@ const LoginForm = () => {
         onChange={handleChange}
       />
       {loginError && <p className="text-danger">{loginError}</p>}
-      <button
-        className="btn btn-primary w-100 mx-auto mb-4"
-        type="submit"
-        disabled={!isValid}>
+      <button className="btn btn-primary w-100 mx-auto mb-4" type="submit" disabled={!isValid}>
         Отправить
       </button>
     </form>

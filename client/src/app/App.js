@@ -17,11 +17,11 @@ function App() {
         <NavBar />
         <Switch>
           <Route exact path="/" component={Catalog} />
-          <Route path="/catalog/:productId?" component={Catalog} />
-          <Route path="/basket" component={Bascket} />
+          <Route path="/product/:productId?" component={Catalog} />
           <Route path="/login/:type?" component={Login} />
           <Route path="/logout" component={LogOut} />
           <ProtectedRoute>
+            <Route path="/basket" component={Bascket} />
             <Route path="/dashboard" component={Dashboard} />
           </ProtectedRoute>
           <Redirect to="/" />

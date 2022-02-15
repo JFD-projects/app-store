@@ -16,7 +16,7 @@ module.exports = async () => {
   // if (groups.length !== groupsMock.length) {
   //   await createInitialEntity(Group, groupsMock)
   // }
-
+  
   // const users = await User.find()
   // if (users.length !== usersMock.length) {
   //   await createInitialEntity(User, usersMock)

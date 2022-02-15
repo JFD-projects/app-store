@@ -57,6 +57,7 @@ const userSlice = createSlice({
       state.entities = null
       state.isLoggedIn = false
       state.auth = null
+      state.dataLoaded = false
     },
     userUpdateSuccessed: (state, action) => {
       state.entities = { ...state.entities, ...action.payload }
@@ -100,8 +101,10 @@ export const logIn = ({ payload, redirect }) =>
       const data = await authService.login(payload)
       localStorageService.setTokens(data)
       dispatch(authRequestSuccess({ userId: data.localId }))
+      console.log('🚀 ~ redirect', redirect)
       dispatch(loadUser())
-      history.push(redirect)
+      // history.push(redirect)
+      history.goBack()
     } catch (error) {
       const { code, message } = error.response.data.error
       if (code === 400) {
@@ -141,11 +144,15 @@ export const updateUser = (payload) => async (dispatch) => {
 }
 
 export const getUser = () => (state) => state.user.entities
-export const getUserBasket = () => (state) => {
-  if (state.user.entities) {
+
+export const getUserCartList = () => (state) => {
+  if (state.user.entities?.basket) {
     return state.user.entities.basket
+  } else {
+    return null
   }
 }
+
 export const getUserIsAdmin = () => (state) => {
   if (state.user.entities) {
     return state.user.entities.isAdmin
@@ -156,5 +163,15 @@ export const getUserIsLoggedIn = () => (state) => state.user.isLoggedIn
 export const getUserDataStatus = () => (state) => state.user.dataLoaded
 export const getUserLoadingStatus = () => (state) => state.user.isLoading
 export const getAuthErrors = () => (state) => state.user.error
+export const getSumCountsOfBasket = () => (state) => {
+  if (state.user.entities?.basket && state.user.entities?.basket.length > 0) {
+    let sum = 0
+    for (const p of state.user.entities.basket) {
+      sum += p.count
+    }
+    return sum
+  } else return 0
+}
+
 
 export default userReducer

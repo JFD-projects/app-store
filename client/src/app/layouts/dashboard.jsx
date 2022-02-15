@@ -15,7 +15,7 @@ const Dashboard = () => {
   const dispatch = useDispatch()
   const isLoadingProducts = useSelector(getProductsLoadingStatus())
   const products = useSelector(getProductsList())
-  const isLoadingGroups =  useSelector(getGroupsLoadingStatus())
+  const isLoadingGroups = useSelector(getGroupsLoadingStatus())
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
   const [typeForm, setTypeForm] = useState()
   const [id, setId] = useState()
@@ -27,15 +27,12 @@ const Dashboard = () => {
     group: {
       path: 'group',
       name: 'Категория',
-      // eslint-disable-next-line react/display-name
       component: (product) => <Group id={product.group} />
     },
     price: { path: 'price', name: 'Стоимость' },
     count: { path: 'count', name: 'Кол-во' },
-    // eslint-disable-next-line react/display-name
     image: { name: 'Фото', component: (product) => <Thumbnail id={product._id} /> },
     buttons: {
-      // eslint-disable-next-line react/display-name
       component: (item) => (
         <div className="d-flex">
           <button className="btn btn-primary" onClick={() => handleProductEdit(item._id)}>
@@ -94,16 +91,9 @@ const Dashboard = () => {
           {typeForm && (
             <>
               {typeForm === 'edit' ? (
-                <EditForm
-                  id={id}
-                  onClose={handleClose}
-                  show={show}
-                />
+                <EditForm id={id} onClose={handleClose} show={show} />
               ) : (
-                <CreateForm
-                  onClose={handleClose}
-                  show={show}
-                />
+                <CreateForm onClose={handleClose} show={show} />
               )}
             </>
           )}

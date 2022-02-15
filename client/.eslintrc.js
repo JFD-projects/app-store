@@ -22,6 +22,7 @@ module.exports = {
     ],
     'quotes': ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
     'multiline-ternary': [0, 'always-multiline'],
-    'object-curly-spacing': ['error', 'always']
+    'object-curly-spacing': ['error', 'always'],
+    'react/display-name': 'off'
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Button, ListGroup } from 'react-bootstrap'
 
 const GroupsList = ({
   items,
@@ -14,25 +15,24 @@ const GroupsList = ({
 
     return (
       <div className="d-flex flex-column">
-        <ul className="list-group">
+        <ListGroup>
           {itemsArray.map((item) => (
-            <li
+            <ListGroup.Item
               key={item[valueProperty]}
               onClick={() => onItemSelect(item)}
-              role="button"
-              className={`list-group-item list-group-item-action
-                ${item === selectedItem ? ' active' : ''}`}>
+              active={item === selectedItem}
+              role="button">
               {item[contentProperty]}
-            </li>
+            </ListGroup.Item>
           ))}
-        </ul>
-        <button
-          type="button"
-          className="btn btn-secondary mt-3"
+        </ListGroup>
+        <Button
+          variant="secondary"
+          className="mt-3"
           onClick={onSelectClear}
           disabled={!selectedItem}>
           Показать все
-        </button>
+        </Button>
       </div>
     )
   }

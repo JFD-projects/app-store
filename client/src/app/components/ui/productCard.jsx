@@ -1,23 +1,29 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { Badge } from 'react-bootstrap'
 
 const ProductCard = ({ _id, image, name, price }) => {
   return (
-    <div className="card mb-3">
+    <div className="card mb-3 position-relative">
       <div className="row g-0">
-        <div className="col-md-4 d-flex align-items-center">
-          <img src={image} className="img-fluid rounded-start" alt={name} />
+        <div className="col-md-4 d-flex align-items-center" style={{ height: '185px' }}>
+          <img
+            src={image}
+            className="img-fluid rounded-start"
+            alt={name}
+            style={{ objectFit: 'contain', width: '100%', height: '100%' }}
+          />
         </div>
         <div className="col-md-8">
           <div className="card-body">
+            <Badge bg="light" text="secondary" className="position-absolute bottom-0 end-0">
+              {'ID: ' + _id}
+            </Badge>
             <h5 className="card-title">{name}</h5>
-            <p className="card-text">
-              <small className="text-muted">{'Артикул ' + _id}</small>
-            </p>
             <p className="card-text">{<b>{new Intl.NumberFormat('ru-RU').format(price)} ₽</b>}</p>
             <Link
-              to={'catalog/' + _id}
+              to={'product/' + _id}
               id={_id}
               image={image}
               name={name}

@@ -4,24 +4,25 @@ import Container from '../components/common/container'
 import Loader from '../components/common/loader'
 import BasketCard from '../components/ui/basketCard'
 import { getProductsList } from '../store/products'
-import { getUser, getUserLoadingStatus, updateUser } from '../store/user'
+import { getSumCountsOfBasket, getUser, getUserLoadingStatus, updateUser } from '../store/user'
 
 const Basket = () => {
   const dispatch = useDispatch()
   const products = useSelector(getProductsList())
   const isLoadingUser = useSelector(getUserLoadingStatus())
   const [basket, setBasket] = useState([])
-  const [amount, setAmount] = useState(0)
+  const [amount, setAmount] = useState()
   const user = useSelector(getUser())
+  const count = useSelector(getSumCountsOfBasket())
 
   useEffect(() => {
-    if (!isLoadingUser) {
+    if (user && user?.basket && user.basket.length > 0) {
       setBasket(user.basket)
     }
   }, [user])
 
   useEffect(() => {
-    setAmount(getSum())
+    setAmount(getSumOfBasket())
   }, [basket])
 
   const handleDelete = (productId) => {
@@ -30,7 +31,7 @@ const Basket = () => {
     dispatch(updateUser(userWithChangedBasket))
   }
 
-  function getSum() {
+  function getSumOfBasket() {
     if (basket) {
       const productsList = []
       for (const b of basket) {
@@ -46,19 +47,22 @@ const Basket = () => {
   }
 
   const handleIncrement = (productId) => {
-    const newBasket = [...basket]
-    const index = basket.findIndex((p) => p._id === productId)
-    newBasket[index] = { ...newBasket[index], count: newBasket[index].count + 1 }
-    const userWithChangedBasket = { ...user, basket: newBasket }
-    dispatch(updateUser(userWithChangedBasket))
+    dispatch(updateUser(getUserWithUpdatedBasket(productId, (state) => state + 1)))
   }
 
   const handleDecrement = (productId) => {
+    dispatch(updateUser(getUserWithUpdatedBasket(productId, (state) => state - 1)))
+  }
+
+  function getUserWithUpdatedBasket(productId, fn) {
     const newBasket = [...basket]
     const index = basket.findIndex((p) => p._id === productId)
-    newBasket[index] = { ...newBasket[index], count: newBasket[index].count - 1 }
-    const userWithChangedBasket = { ...user, basket: newBasket }
-    dispatch(updateUser(userWithChangedBasket))
+    if (!fn(newBasket[index].count)) {
+      newBasket.splice(index, 1)
+    } else {
+      newBasket[index] = { ...newBasket[index], count: fn(newBasket[index].count) }
+    }
+    return { ...user, basket: newBasket }
   }
 
   if (isLoadingUser) return <Loader />
@@ -68,7 +72,7 @@ const Basket = () => {
       <Container>
         <div className="row d-flex">
           <div className="col-md-9 col-sm flex-grow-1 position-relative">
-            {basket && basket.length > 0 ? (
+            {count ? (
               <>
                 {basket.map((item) => (
                   <BasketCard
@@ -87,7 +91,7 @@ const Basket = () => {
           </div>
           <div className="col-md-3 col-sm mb-4">
             <p className="card-text">
-              {<b>Итого: {new Intl.NumberFormat('ru-RU').format(amount)} ₽</b>}
+              {<b>Итого: {new Intl.NumberFormat('ru-RU').format(count ? amount : 0)} ₽</b>}
             </p>
           </div>
         </div>

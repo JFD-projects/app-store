@@ -12,7 +12,6 @@ import { createProduct } from '../../store/products'
 const CreateForm = ({ show, onClose }) => {
   const dispatch = useDispatch()
   const [data, setData] = useState({
-    // _id: '',
     name: '',
     group: '',
     price: 0,
@@ -48,7 +47,6 @@ const CreateForm = ({ show, onClose }) => {
     e.preventDefault()
     const isValid = validate()
     if (!isValid) return
-    console.log('🚀 ~ handleSubmit ~ data', data)
     dispatch(createProduct(data))
     onClose()
   }
