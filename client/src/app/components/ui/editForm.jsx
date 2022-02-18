@@ -1,52 +1,55 @@
 import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
+import React /* , { useEffect, useState } */ from 'react'
 import { Button, Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { validatorConfig } from '../../config.validator'
+// import { validatorConfig } from '../../config.validator'
+import useForm from '../../hooks/useForm'
 import { getGroupsList, getGroupsLoadingStatus } from '../../store/groups'
 import { getProductById, updateProduct } from '../../store/products'
-import { validator } from '../../utils/validator'
+// import { validator } from '../../utils/validator'
 import SelectField from '../common/form/selectField'
 import TextField from '../common/form/textField'
 import Loader from '../common/loader'
 
 const EditForm = ({ id, show, onClose }) => {
   const dispatch = useDispatch()
-  const [data, setData] = useState()
+  // const [data, setData] = useState()
   const product = useSelector(getProductById(id))
   const isLoadingGroups = useSelector(getGroupsLoadingStatus())
   const groups = useSelector(getGroupsList())
-  const [errors, setErrors] = useState({})
+  // const [errors, setErrors] = useState({})
+  const { data, errors, isValid, onChange } = useForm(product)
+  console.log('🚀 ~ EditForm ~ data', data)
 
-  useEffect(() => {
-    if (!isLoadingGroups && !data) {
-      setData(product)
-    }
-  }, [groups, data])
+  // useEffect(() => {
+  //   if (!isLoadingGroups && !data) {
+  //     setData(product)
+  //   }
+  // }, [groups, data])
 
-  const handleChange = (target) => {
-    setData((prevState) => ({
-      ...prevState,
-      [target.name]: target.value
-    }))
-  }
+  // const handleChange = (target) => {
+  //   setData((prevState) => ({
+  //     ...prevState,
+  //     [target.name]: target.value
+  //   }))
+  // }
 
-  useEffect(() => {
-    validate()
-  }, [data])
+  // useEffect(() => {
+  //   validate()
+  // }, [data])
 
-  const validate = () => {
-    const errors = validator(data, validatorConfig)
-    setErrors(errors)
+  // const validate = () => {
+  //   const errors = validator(data, validatorConfig)
+  //   setErrors(errors)
 
-    return !Object.keys(errors).length
-  }
+  //   return !Object.keys(errors).length
+  // }
 
-  const isValid = !Object.keys(errors).length
+  // const isValid = !Object.keys(errors).length
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const isValid = validate()
+    // const isValid = validate()
     if (!isValid) return
 
     dispatch(updateProduct({ ...data, price: +data.price, count: +data.count }))
@@ -67,14 +70,15 @@ const EditForm = ({ id, show, onClose }) => {
             name="_id"
             value={data._id}
             error={errors._id}
-            onChange={handleChange}
+            // onChange={handleChange}
+            onChange={onChange}
           />
           <TextField
             label="Название товара"
             name="name"
             value={data.name}
             error={errors.name}
-            onChange={handleChange}
+            onChange={onChange}
           />
           <SelectField
             label="Группа товара"
@@ -83,7 +87,7 @@ const EditForm = ({ id, show, onClose }) => {
             value={data.group}
             error={errors.group}
             options={groups}
-            onChange={handleChange}
+            onChange={onChange}
           />
           <TextField
             label="Цена"
@@ -91,7 +95,7 @@ const EditForm = ({ id, show, onClose }) => {
             type="number"
             value={data.price}
             error={errors.price}
-            onChange={handleChange}
+            onChange={onChange}
           />
           <TextField
             label="Количество"
@@ -99,14 +103,14 @@ const EditForm = ({ id, show, onClose }) => {
             type="number"
             value={data.count}
             error={errors.count}
-            onChange={handleChange}
+            onChange={onChange}
           />
           <TextField
             label="Фото"
             name="image"
             value={data.image}
             error={errors.image}
-            onChange={handleChange}
+            onChange={onChange}
           />
         </form>
       </Modal.Body>

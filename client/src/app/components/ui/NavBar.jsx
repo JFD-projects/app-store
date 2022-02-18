@@ -45,7 +45,7 @@ const NavBar = () => {
                   Кабинет
                 </NavLink>
               )}
-              <NavLink to={'/basket'} className="nav-link fs-5 position-relative">
+              <NavLink to={isLoggedInUser ? '/basket' : '/login'} className="nav-link fs-5 position-relative">
                 <i className="bi bi-cart me-2"></i>
                 Корзина
                 <span className={'ms-1 badge bg-' + (count ? 'danger' : 'secondary')}>
@@ -53,12 +53,12 @@ const NavBar = () => {
                 </span>
               </NavLink>
               {isLoggedInUser ? (
-                <Link to="/logout" className="nav-link fs-5" role="button" title="Выйти">
+                <Link to="/logout" className="nav-link fs-5" role="button">
                   <i className="bi bi-box-arrow-right me-2"></i>
                   Выйти
                 </Link>
               ) : (
-                <NavLink to={'/login'} className="nav-link fs-5" placeholder="Войти">
+                <NavLink to={'/login'} className="nav-link fs-5">
                   <i className="bi bi-box-arrow-in-left me-2"></i>
                   Войти
                 </NavLink>

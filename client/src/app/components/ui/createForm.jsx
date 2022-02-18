@@ -1,17 +1,16 @@
 import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Button, Modal } from 'react-bootstrap'
-import { validatorConfig } from '../../config.validator'
-import { validator } from '../../utils/validator'
 import SelectField from '../common/form/selectField'
 import TextField from '../common/form/textField'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGroupsList } from '../../store/groups'
 import { createProduct } from '../../store/products'
+import useForm from '../../hooks/useForm'
 
 const CreateForm = ({ show, onClose }) => {
   const dispatch = useDispatch()
-  const [data, setData] = useState({
+  const { data, errors, isValid, onChange } = useForm({
     name: '',
     group: '',
     price: 0,
@@ -20,32 +19,9 @@ const CreateForm = ({ show, onClose }) => {
   })
 
   const groups = useSelector(getGroupsList())
-  const [errors, setErrors] = useState({})
-
-  const handleChange = (target) => {
-    setData((prevState) => ({
-      ...prevState,
-      [target.name]: target.value
-    }))
-  }
-
-  useEffect(() => {
-    validate()
-  }, [data])
-
-  const validate = () => {
-    const errors = validator(data, validatorConfig)
-
-    setErrors(errors)
-
-    return !Object.keys(errors).length
-  }
-
-  const isValid = !Object.keys(errors).length
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const isValid = validate()
     if (!isValid) return
     dispatch(createProduct(data))
     onClose()
@@ -63,7 +39,7 @@ const CreateForm = ({ show, onClose }) => {
             name="name"
             value={data.name}
             error={errors.name}
-            onChange={handleChange}
+            onChange={onChange}
           />
           <SelectField
             label="Группа товара"
@@ -72,7 +48,7 @@ const CreateForm = ({ show, onClose }) => {
             value={data.group}
             error={errors.group}
             options={groups}
-            onChange={handleChange}
+            onChange={onChange}
           />
           <TextField
             label="Цена"
@@ -80,7 +56,7 @@ const CreateForm = ({ show, onClose }) => {
             type="number"
             value={data.price}
             error={errors.price}
-            onChange={handleChange}
+            onChange={onChange}
           />
           <TextField
             label="Количество"
@@ -88,14 +64,14 @@ const CreateForm = ({ show, onClose }) => {
             type="number"
             value={data.count}
             error={errors.count}
-            onChange={handleChange}
+            onChange={onChange}
           />
           <TextField
             label="Фото"
             name="image"
             value={data.image}
             error={errors.image}
-            onChange={handleChange}
+            onChange={onChange}
           />
         </form>
       </Modal.Body>
