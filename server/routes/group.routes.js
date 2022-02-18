@@ -1,7 +1,6 @@
 const express = require('express')
 const Group = require('../models/Group')
 const router = express.Router({ mergeParams: true })
-// const cors = require('cors')
 
 router.get('/', async (req, res) => {
   try {

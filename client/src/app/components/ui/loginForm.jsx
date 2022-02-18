@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import TextField from '../common/form/textField'
-import { validator } from '../../utils/validator'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAuthErrors, logIn } from '../../store/user'
 import history from '../../utils/history'
+import { validator } from '../../utils/validator'
+import TextField from '../common/form/textField'
 
 const LoginForm = () => {
   const dispatch = useDispatch()

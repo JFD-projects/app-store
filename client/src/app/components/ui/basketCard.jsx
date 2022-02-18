@@ -1,9 +1,9 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import { Badge } from 'react-bootstrap'
-import Counter from '../common/counter'
-import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { getProductById } from '../../store/products'
+import Counter from '../common/counter'
 
 const BasketCard = ({ productId, count, onDelete, ...rest }) => {
   const product = useSelector(getProductById(productId))

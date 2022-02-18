@@ -1,5 +1,8 @@
 import { orderBy } from 'lodash'
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { getGroupsList } from '../../../store/groups'
+import { getProductsList } from '../../../store/products'
 import { paginate } from '../../../utils/paginate'
 import Container from '../../common/container'
 import GroupsList from '../../common/groupsList'
@@ -7,9 +10,6 @@ import Pagination from '../../common/pagination'
 import ProductsList from '../../ui/productsList'
 import SearchProduct from '../../ui/searchProduct'
 import SortProducts from '../../ui/sortProducts'
-import { useSelector } from 'react-redux'
-import { getProductsList } from '../../../store/products'
-import { getGroupsList } from '../../../store/groups'
 
 const ProductsCatalogPage = () => {
   const products = useSelector(getProductsList())

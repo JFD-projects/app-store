@@ -1,11 +1,10 @@
-import React from 'react'
-import { Redirect, Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import React from 'react'
 import { useSelector } from 'react-redux'
-import { getUserIsAdmin, getUserIsLoggedIn } from '../../store/user'
+import { Redirect, Route } from 'react-router-dom'
+import { getUserIsLoggedIn } from '../../store/user'
 
 const ProtectedRoute = ({ component: Component, children, ...rest }) => {
-  const isAdmin = useSelector(getUserIsAdmin())
   const isLoggedIn = useSelector(getUserIsLoggedIn())
 
   return (
@@ -23,9 +22,6 @@ const ProtectedRoute = ({ component: Component, children, ...rest }) => {
               }}
             />
           )
-        }
-        if (!isAdmin) {
-          return <Redirect to="/" />
         }
 
         return Component ? <Component {...props} /> : children

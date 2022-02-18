@@ -1,11 +1,11 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import Container from '../../common/container'
-import { Button, Badge } from 'react-bootstrap'
+import React from 'react'
+import { Badge, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { getProductById } from '../../../store/products'
 import { getUser, getUserIsLoggedIn, updateUser } from '../../../store/user'
-import { useHistory } from 'react-router-dom'
+import Container from '../../common/container'
 
 const ProductPage = ({ id }) => {
   const history = useHistory()
@@ -34,7 +34,6 @@ const ProductPage = ({ id }) => {
   return (
     <main>
       <Container>
-        {/* <SearchProduct/> */}
         <div className="row d-flex mt-5">
           <div className="col-md-5 col-sm mb-4">
             <img src={product.image} className="img-fluid rounded-start" alt={product.name} />
@@ -50,7 +49,7 @@ const ProductPage = ({ id }) => {
               <b className="fs-1">{new Intl.NumberFormat('ru-RU').format(product.price)} ₽</b>
             </p>
             <Button variant="outline-dark" className="mt-auto mb-4 w-50" onClick={handleCart}>
-              {'Купить'}
+              Купить
             </Button>
           </div>
         </div>

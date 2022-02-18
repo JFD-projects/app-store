@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Button, Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Container from '../components/common/container'
 import Loader from '../components/common/loader'
 import BasketCard from '../components/ui/basketCard'
+import useToggle from '../hooks/useToggle'
 import { getProductsList } from '../store/products'
 import { getSumCountsOfBasket, getUser, getUserLoadingStatus, updateUser } from '../store/user'
 
@@ -14,6 +16,7 @@ const Basket = () => {
   const [amount, setAmount] = useState()
   const user = useSelector(getUser())
   const count = useSelector(getSumCountsOfBasket())
+  const [show, setShow] = useToggle(false)
 
   useEffect(() => {
     if (user && user?.basket && user.basket.length > 0) {
@@ -65,6 +68,13 @@ const Basket = () => {
     return { ...user, basket: newBasket }
   }
 
+  const handleSend = () => {
+    if (count) {
+      dispatch(updateUser({ ...user, basket: [] }))
+      setShow(true)
+    }
+  }
+
   if (isLoadingUser) return <Loader />
 
   return (
@@ -93,9 +103,27 @@ const Basket = () => {
             <p className="card-text">
               {<b>Итого: {new Intl.NumberFormat('ru-RU').format(count ? amount : 0)} ₽</b>}
             </p>
+            <Button
+              variant="outline-dark"
+              className="mt-auto mb-4 w-50"
+              onClick={handleSend}
+              disabled={!count}>
+              Отправить заказ
+            </Button>
           </div>
         </div>
       </Container>
+      <Modal show={show} onHide={setShow} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Поздравляем!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Ваш заказ был успешно отправлен!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={setShow}>
+            Закрыть
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </main>
   )
 }

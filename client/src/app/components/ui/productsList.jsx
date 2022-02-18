@@ -1,7 +1,7 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import ProductCard from './productCard'
 
-import PropTypes from 'prop-types'
 
 const ProductsList = ({ items }) => {
   if (items) {

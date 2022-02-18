@@ -1,16 +1,15 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Button, Modal } from 'react-bootstrap'
-import SelectField from '../common/form/selectField'
-import TextField from '../common/form/textField'
 import { useDispatch, useSelector } from 'react-redux'
+import useForm from '../../hooks/useForm'
 import { getGroupsList } from '../../store/groups'
 import { createProduct } from '../../store/products'
-import useForm from '../../hooks/useForm'
+import ProductForm from './productForm'
 
 const CreateForm = ({ show, onClose }) => {
   const dispatch = useDispatch()
-  const { data, errors, isValid, onChange } = useForm({
+  const [{ data, errors, isValid }, onChange] = useForm({
     name: '',
     group: '',
     price: 0,
@@ -33,47 +32,14 @@ const CreateForm = ({ show, onClose }) => {
         <Modal.Title>Добавить</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Название товара"
-            name="name"
-            value={data.name}
-            error={errors.name}
-            onChange={onChange}
-          />
-          <SelectField
-            label="Группа товара"
-            defaultOption="Choose..."
-            name="group"
-            value={data.group}
-            error={errors.group}
-            options={groups}
-            onChange={onChange}
-          />
-          <TextField
-            label="Цена"
-            name="price"
-            type="number"
-            value={data.price}
-            error={errors.price}
-            onChange={onChange}
-          />
-          <TextField
-            label="Количество"
-            name="count"
-            type="number"
-            value={data.count}
-            error={errors.count}
-            onChange={onChange}
-          />
-          <TextField
-            label="Фото"
-            name="image"
-            value={data.image}
-            error={errors.image}
-            onChange={onChange}
-          />
-        </form>
+        <ProductForm
+          onSubmit={handleSubmit}
+          data={data}
+          errors={errors}
+          isValid={isValid}
+          onChange={onChange}
+          groups={groups}
+        />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onClose}>

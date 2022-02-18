@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
-import { validator } from '../utils/validator'
+import { useEffect, useState } from 'react'
 import { validatorConfig } from '../config.validator'
+import { validator } from '../utils/validator'
 
 function useForm(initialData) {
   const [data, setData] = useState(initialData)
@@ -26,7 +26,7 @@ function useForm(initialData) {
 
   const isValid = !Object.keys(errors).length
 
-  return { data, errors, isValid, onChange }
+  return [{ data, errors, isValid }, onChange]
 }
 
 export default useForm

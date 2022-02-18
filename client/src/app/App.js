@@ -4,7 +4,7 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import ProtectedRoute from './components/common/protectedRoute'
 import AppLoader from './components/ui/hoc/appLoader'
 import NavBar from './components/ui/NavBar'
-import Bascket from './layouts/basket'
+import Basket from './layouts/basket'
 import Catalog from './layouts/catalog'
 import Dashboard from './layouts/dashboard'
 import Login from './layouts/login'
@@ -20,8 +20,8 @@ function App() {
           <Route path="/product/:productId?" component={Catalog} />
           <Route path="/login/:type?" component={Login} />
           <Route path="/logout" component={LogOut} />
-          <Route path="/basket" component={Bascket} />
           <ProtectedRoute>
+            <Route path="/basket" component={Basket} />
             <Route path="/dashboard" component={Dashboard} />
           </ProtectedRoute>
           <Redirect to="/" />

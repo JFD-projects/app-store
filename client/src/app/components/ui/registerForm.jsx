@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import TextField from '../common/form/textField'
-import { validator } from '../../utils/validator'
 import { useDispatch } from 'react-redux'
 import { signUp } from '../../store/user'
+import { validator } from '../../utils/validator'
+import TextField from '../common/form/textField'
 
 const RegisterForm = () => {
   const dispatch = useDispatch()

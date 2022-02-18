@@ -10,6 +10,7 @@ import Loader from '../components/common/loader'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGroupsLoadingStatus } from '../store/groups'
 import { deleteProduct, getProductsList, getProductsLoadingStatus } from '../store/products'
+import useToggle from '../hooks/useToggle'
 
 const Dashboard = () => {
   const dispatch = useDispatch()
@@ -19,7 +20,7 @@ const Dashboard = () => {
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
   const [typeForm, setTypeForm] = useState()
   const [id, setId] = useState()
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useToggle(false)
 
   const columns = {
     id: { path: '_id', name: 'ID' },
@@ -46,8 +47,6 @@ const Dashboard = () => {
     }
   }
 
-  const handleShow = () => setShow(true)
-
   const handleClose = () => {
     setShow(false)
     setTypeForm()
@@ -56,11 +55,11 @@ const Dashboard = () => {
   const handleProductEdit = (id) => {
     setId(id)
     setTypeForm('edit')
-    handleShow()
+    setShow(true)
   }
   const handleProductCreate = () => {
     setTypeForm('create')
-    handleShow()
+    setShow(true)
   }
 
   const handleDelete = (id) => {

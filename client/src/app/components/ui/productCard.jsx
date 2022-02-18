@@ -1,7 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import React from 'react'
 import { Badge } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 const ProductCard = ({ _id, image, name, price }) => {
   return (

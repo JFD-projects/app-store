@@ -1,5 +1,5 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 
 const Pagination = ({ currentPage, countItem, pageSize, onPageChange }) => {
   const pageCount = Math.ceil(countItem / pageSize)

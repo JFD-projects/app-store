@@ -72,7 +72,6 @@ export const createProduct = (data) => async (dispatch) => {
 }
 
 export const updateProduct = (payload) => async (dispatch) => {
-  console.log('🚀 ~ updateProduct ~ payload', payload)
   dispatch(updataProductRequested())
 
   try {

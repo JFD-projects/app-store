@@ -1,7 +1,7 @@
-import React from 'react'
-import { Button, Badge } from 'react-bootstrap'
-
 import PropTypes from 'prop-types'
+import React from 'react'
+import { Badge, Button } from 'react-bootstrap'
+
 
 const Counter = ({ id, value, onIncrement, onDecrement }) => {
   return (

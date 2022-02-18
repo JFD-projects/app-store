@@ -85,7 +85,6 @@ export const signUp = (payload) =>
     dispatch(authRequested())
     try {
       const data = await authService.register(payload)
-      console.log('🚀 ~ data', data)
       localStorageService.setTokens(data)
       dispatch(authRequestSuccess({ userId: data.userId }))
       history.push('/')
@@ -101,10 +100,8 @@ export const logIn = ({ payload, redirect }) =>
       const data = await authService.login(payload)
       localStorageService.setTokens(data)
       dispatch(authRequestSuccess({ userId: data.localId }))
-      console.log('🚀 ~ redirect', redirect)
       dispatch(loadUser())
-      // history.push(redirect)
-      history.goBack()
+      history.push(redirect)
     } catch (error) {
       const { code, message } = error.response.data.error
       if (code === 400) {
